@@ -1,0 +1,33 @@
+﻿@model EventSpark.Core.Entities.Event
+
+@{
+    ViewData["Title"] = "Edit Event";
+}
+
+<h1>Edit Event</h1>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="EventId" />
+    <input type="hidden" asp-for="RowVersion" />
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <!-- same fields as Create... -->
+
+    <div class="mb-3">
+        <label asp-for="Title" class="form-label"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <!-- repeat all the other fields from Create.cshtml -->
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

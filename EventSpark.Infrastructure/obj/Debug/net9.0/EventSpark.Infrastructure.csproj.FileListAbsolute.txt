@@ -1,0 +1,16 @@
+C:\Users\yaksh\Documents\GitHub\EventSpark\EventSpark.Infrastructure\bin\Debug\net9.0\EventSpark.Infrastructure.deps.json
+C:\Users\yaksh\Documents\GitHub\EventSpark\EventSpark.Infrastructure\bin\Debug\net9.0\EventSpark.Infrastructure.dll
+C:\Users\yaksh\Documents\GitHub\EventSpark\EventSpark.Infrastructure\bin\Debug\net9.0\EventSpark.Infrastructure.pdb
+C:\Users\yaksh\Documents\GitHub\EventSpark\EventSpark.Infrastructure\bin\Debug\net9.0\EventSpark.Core.dll
+C:\Users\yaksh\Documents\GitHub\EventSpark\EventSpark.Infrastructure\bin\Debug\net9.0\EventSpark.Core.pdb
+C:\Users\yaksh\Documents\GitHub\EventSpark\EventSpark.Infrastructure\obj\Debug\net9.0\EventSpark.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\yaksh\Documents\GitHub\EventSpark\EventSpark.Infrastructure\obj\Debug\net9.0\EventSpark.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\yaksh\Documents\GitHub\EventSpark\EventSpark.Infrastructure\obj\Debug\net9.0\EventSpark.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\yaksh\Documents\GitHub\EventSpark\EventSpark.Infrastructure\obj\Debug\net9.0\EventSpark.Infrastructure.AssemblyInfo.cs
+C:\Users\yaksh\Documents\GitHub\EventSpark\EventSpark.Infrastructure\obj\Debug\net9.0\EventSpark.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\yaksh\Documents\GitHub\EventSpark\EventSpark.Infrastructure\obj\Debug\net9.0\EventSpark.Infrastructure.sourcelink.json
+C:\Users\yaksh\Documents\GitHub\EventSpark\EventSpark.Infrastructure\obj\Debug\net9.0\EventSpa.AB81E7DD.Up2Date
+C:\Users\yaksh\Documents\GitHub\EventSpark\EventSpark.Infrastructure\obj\Debug\net9.0\EventSpark.Infrastructure.dll
+C:\Users\yaksh\Documents\GitHub\EventSpark\EventSpark.Infrastructure\obj\Debug\net9.0\refint\EventSpark.Infrastructure.dll
+C:\Users\yaksh\Documents\GitHub\EventSpark\EventSpark.Infrastructure\obj\Debug\net9.0\EventSpark.Infrastructure.pdb
+C:\Users\yaksh\Documents\GitHub\EventSpark\EventSpark.Infrastructure\obj\Debug\net9.0\ref\EventSpark.Infrastructure.dll

@@ -1,0 +1,12 @@
+C:\Users\yaksh\Documents\GitHub\EventSpark\EventSpark.Core\bin\Debug\net9.0\EventSpark.Core.deps.json
+C:\Users\yaksh\Documents\GitHub\EventSpark\EventSpark.Core\bin\Debug\net9.0\EventSpark.Core.dll
+C:\Users\yaksh\Documents\GitHub\EventSpark\EventSpark.Core\bin\Debug\net9.0\EventSpark.Core.pdb
+C:\Users\yaksh\Documents\GitHub\EventSpark\EventSpark.Core\obj\Debug\net9.0\EventSpark.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\yaksh\Documents\GitHub\EventSpark\EventSpark.Core\obj\Debug\net9.0\EventSpark.Core.AssemblyInfoInputs.cache
+C:\Users\yaksh\Documents\GitHub\EventSpark\EventSpark.Core\obj\Debug\net9.0\EventSpark.Core.AssemblyInfo.cs
+C:\Users\yaksh\Documents\GitHub\EventSpark\EventSpark.Core\obj\Debug\net9.0\EventSpark.Core.csproj.CoreCompileInputs.cache
+C:\Users\yaksh\Documents\GitHub\EventSpark\EventSpark.Core\obj\Debug\net9.0\EventSpark.Core.sourcelink.json
+C:\Users\yaksh\Documents\GitHub\EventSpark\EventSpark.Core\obj\Debug\net9.0\EventSpark.Core.dll
+C:\Users\yaksh\Documents\GitHub\EventSpark\EventSpark.Core\obj\Debug\net9.0\refint\EventSpark.Core.dll
+C:\Users\yaksh\Documents\GitHub\EventSpark\EventSpark.Core\obj\Debug\net9.0\EventSpark.Core.pdb
+C:\Users\yaksh\Documents\GitHub\EventSpark\EventSpark.Core\obj\Debug\net9.0\ref\EventSpark.Core.dll

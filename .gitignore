@@ -3,3 +3,5 @@
 ################################################################################
 
 /EventSpark/.vs/EventSpark
+/appsettings.json
+./appsettings.Development.json
