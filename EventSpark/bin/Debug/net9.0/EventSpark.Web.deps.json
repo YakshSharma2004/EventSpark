@@ -9,7 +9,8 @@
       "EventSpark.Web/1.0.0": {
         "dependencies": {
           "EventSpark.Core": "1.0.0",
-          "EventSpark.Infrastructure": "1.0.0"
+          "EventSpark.Infrastructure": "1.0.0",
+          "Microsoft.AspNetCore.Identity.UI": "9.0.11"
         },
         "runtime": {
           "EventSpark.Web.dll": {}
@@ -47,6 +48,49 @@
           "lib/netstandard2.0/Azure.Identity.dll": {
             "assemblyVersion": "1.11.4.0",
             "fileVersion": "1.1100.424.31005"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Cryptography.Internal/9.0.11": {
+        "runtime": {
+          "lib/net9.0/Microsoft.AspNetCore.Cryptography.Internal.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.1125.52006"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Cryptography.KeyDerivation/9.0.11": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Cryptography.Internal": "9.0.11"
+        },
+        "runtime": {
+          "lib/net9.0/Microsoft.AspNetCore.Cryptography.KeyDerivation.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.1125.52006"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Identity.EntityFrameworkCore/9.0.11": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.Relational": "9.0.11",
+          "Microsoft.Extensions.Identity.Stores": "9.0.11"
+        },
+        "runtime": {
+          "lib/net9.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll": {
+            "assemblyVersion": "9.0.11.0",
+            "fileVersion": "9.0.1125.52006"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Identity.UI/9.0.11": {
+        "dependencies": {
+          "Microsoft.Extensions.FileProviders.Embedded": "9.0.11",
+          "Microsoft.Extensions.Identity.Stores": "9.0.11"
+        },
+        "runtime": {
+          "lib/net9.0/Microsoft.AspNetCore.Identity.UI.dll": {
+            "assemblyVersion": "9.0.11.0",
+            "fileVersion": "9.0.1125.52006"
           }
         }
       },
@@ -227,6 +271,54 @@
           "lib/net9.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
             "assemblyVersion": "9.0.0.0",
             "fileVersion": "9.0.1125.51716"
+          }
+        }
+      },
+      "Microsoft.Extensions.FileProviders.Abstractions/9.0.11": {
+        "dependencies": {
+          "Microsoft.Extensions.Primitives": "9.0.11"
+        },
+        "runtime": {
+          "lib/net9.0/Microsoft.Extensions.FileProviders.Abstractions.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.1125.51716"
+          }
+        }
+      },
+      "Microsoft.Extensions.FileProviders.Embedded/9.0.11": {
+        "dependencies": {
+          "Microsoft.Extensions.FileProviders.Abstractions": "9.0.11"
+        },
+        "runtime": {
+          "lib/net9.0/Microsoft.Extensions.FileProviders.Embedded.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.1125.52006"
+          }
+        }
+      },
+      "Microsoft.Extensions.Identity.Core/9.0.11": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Cryptography.KeyDerivation": "9.0.11",
+          "Microsoft.Extensions.Logging": "9.0.11",
+          "Microsoft.Extensions.Options": "9.0.11"
+        },
+        "runtime": {
+          "lib/net9.0/Microsoft.Extensions.Identity.Core.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.1125.52006"
+          }
+        }
+      },
+      "Microsoft.Extensions.Identity.Stores/9.0.11": {
+        "dependencies": {
+          "Microsoft.Extensions.Caching.Abstractions": "9.0.11",
+          "Microsoft.Extensions.Identity.Core": "9.0.11",
+          "Microsoft.Extensions.Logging": "9.0.11"
+        },
+        "runtime": {
+          "lib/net9.0/Microsoft.Extensions.Identity.Stores.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.1125.52006"
           }
         }
       },
@@ -599,6 +691,7 @@
       "EventSpark.Infrastructure/1.0.0": {
         "dependencies": {
           "EventSpark.Core": "1.0.0",
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "9.0.11",
           "Microsoft.EntityFrameworkCore": "9.0.11",
           "Microsoft.EntityFrameworkCore.SqlServer": "9.0.11"
         },
@@ -630,6 +723,34 @@
       "sha512": "sha512-Sf4BoE6Q3jTgFkgBkx7qztYOFELBCo+wQgpYDwal/qJ1unBH73ywPztIJKXBXORRzAeNijsuxhk94h0TIMvfYg==",
       "path": "azure.identity/1.11.4",
       "hashPath": "azure.identity.1.11.4.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Cryptography.Internal/9.0.11": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-+599lmkdIaDHkpW4KI+r8u4Nz8eXVo0aZ+fEt4mQ/ibe0xCoSm3QNYCgdvKdTxp+jcH5X330vzu0xuYXjhZkWg==",
+      "path": "microsoft.aspnetcore.cryptography.internal/9.0.11",
+      "hashPath": "microsoft.aspnetcore.cryptography.internal.9.0.11.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Cryptography.KeyDerivation/9.0.11": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-AJxCQUfNgGL6Ok5rlJ+3Zf5tisnhVr9Vd2ogpHoL7mrIOKJVKtKvQ35t7TTMGanbGgs47DClwN+uYJLhjO0jNA==",
+      "path": "microsoft.aspnetcore.cryptography.keyderivation/9.0.11",
+      "hashPath": "microsoft.aspnetcore.cryptography.keyderivation.9.0.11.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Identity.EntityFrameworkCore/9.0.11": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-RnTlHuDPKm9fiFDg1n7kHrS/deUOprJ73q5D9yX9B3e3MhYnhQZGVsSRxjjksA66SikmaM783pgz9OEve6uzUQ==",
+      "path": "microsoft.aspnetcore.identity.entityframeworkcore/9.0.11",
+      "hashPath": "microsoft.aspnetcore.identity.entityframeworkcore.9.0.11.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Identity.UI/9.0.11": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-56HFj2ufy7NqIDZk2cKy47GCyRzkn5doaL7LOj5c353DTPXjg4bzB8wL6JPOuAsFsybzs9P8R5Dhm6tGzy5+3A==",
+      "path": "microsoft.aspnetcore.identity.ui/9.0.11",
+      "hashPath": "microsoft.aspnetcore.identity.ui.9.0.11.nupkg.sha512"
     },
     "Microsoft.Bcl.AsyncInterfaces/1.1.1": {
       "type": "package",
@@ -728,6 +849,34 @@
       "sha512": "sha512-+ZxxZzcVU+IEzq12GItUzf/V3mEc5nSLiXijwvDc4zyhbjvSZZ043giSZqGnhakrjwRWjkerIHPrRwm9okEIpw==",
       "path": "microsoft.extensions.dependencyinjection.abstractions/9.0.11",
       "hashPath": "microsoft.extensions.dependencyinjection.abstractions.9.0.11.nupkg.sha512"
+    },
+    "Microsoft.Extensions.FileProviders.Abstractions/9.0.11": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-YEPsXWcoNde6J6W/MMjIuNQMPkKTL4NS0AJ1rsAt48+GuJYoZU+Mi4T8PwyzYGDLxhUsH3Wa32DlbKtDkzT40A==",
+      "path": "microsoft.extensions.fileproviders.abstractions/9.0.11",
+      "hashPath": "microsoft.extensions.fileproviders.abstractions.9.0.11.nupkg.sha512"
+    },
+    "Microsoft.Extensions.FileProviders.Embedded/9.0.11": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-XIrEYbuRq+mam7ljrxf/S4Ug5taFXDNUVGK+rxqx5qZbM572hLBzeS6ClNGy97kJQC5urlApTv6Xprl+xvp6oA==",
+      "path": "microsoft.extensions.fileproviders.embedded/9.0.11",
+      "hashPath": "microsoft.extensions.fileproviders.embedded.9.0.11.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Identity.Core/9.0.11": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-JGHkoOj04m9WGiA2a8UK6r3L6lL2E/J61kFPYEG9PTkT1H2xWkZG1z8L9xvS/rnnuc07VM5zD/f3KSoW1+Gwjw==",
+      "path": "microsoft.extensions.identity.core/9.0.11",
+      "hashPath": "microsoft.extensions.identity.core.9.0.11.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Identity.Stores/9.0.11": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-H05q2662AqhXUU+dHoCZQGtZe6vk+5fvGYfAZbFuDKeIJYZzT4ICjEB5o4Dc26d2ZBJ4D0hcDbO9HPnbnr51sw==",
+      "path": "microsoft.extensions.identity.stores/9.0.11",
+      "hashPath": "microsoft.extensions.identity.stores.9.0.11.nupkg.sha512"
     },
     "Microsoft.Extensions.Logging/9.0.11": {
       "type": "package",

@@ -11,10 +11,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.AspNetCore.Identity.UI.UIFrameworkAttribute("Bootstrap5")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("EventSpark.Web")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6f3e7cd9b0f3c28732852912d80ca1eb99581915")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6c5541a2382261c2bfde1761bd1e39445757d653")]
 [assembly: System.Reflection.AssemblyProductAttribute("EventSpark.Web")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EventSpark.Web")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

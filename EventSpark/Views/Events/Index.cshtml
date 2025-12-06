@@ -13,8 +13,8 @@
 <table class="table">
     <thead>
         <tr>
+            <th>Id</th>
             <th>Title</th>
-            <th>Category</th>
             <th>City</th>
             <th>Start</th>
             <th>Status</th>
@@ -22,18 +22,18 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var e in Model)
         {
             <tr>
-                <td>@item.Title</td>
-                <td>@item.Category?.Name</td>
-                <td>@item.City</td>
-                <td>@item.StartDateTime.ToString("g")</td>
-                <td>@item.Status</td>
+                <td>@e.EventId</td>
+                <td>@e.Title</td>
+                <td>@e.City</td>
+                <td>@e.StartDateTime</td>
+                <td>@e.Status</td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.EventId">Details</a> |
-                    <a asp-action="Edit" asp-route-id="@item.EventId">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@item.EventId">Delete</a>
+                    <a asp-action="Details" asp-route-id="@e.EventId">Details</a> |
+                    <a asp-action="Edit" asp-route-id="@e.EventId">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@e.EventId">Delete</a>
                 </td>
             </tr>
         }

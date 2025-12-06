@@ -1,10 +1,12 @@
 ﻿using EventSpark.Core.Entities;
 using EventSpark.Core.Enums;
+using EventSpark.Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace EventSpark.Infrastructure.Data
 {
-    public class EventSparkDbContext : DbContext
+    public class EventSparkDbContext : IdentityDbContext<ApplicationUser>
     {
         public EventSparkDbContext(DbContextOptions<EventSparkDbContext> options)
             : base(options)

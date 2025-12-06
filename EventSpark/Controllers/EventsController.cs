@@ -7,9 +7,12 @@ using EventSpark.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace EventSpark.Web.Controllers
 {
+    [Authorize]
     public class EventsController : Controller
     {
         private readonly EventSparkDbContext _db;
@@ -19,6 +22,7 @@ namespace EventSpark.Web.Controllers
             _db = db;
         }
 
+        [AllowAnonymous]
         // GET: /Events
         public async Task<IActionResult> Index()
         {
@@ -29,7 +33,7 @@ namespace EventSpark.Web.Controllers
             var events = await eventsQuery.ToListAsync();
             return View(events);
         }
-
+        [AllowAnonymous]
         // GET: /Events/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -43,7 +47,7 @@ namespace EventSpark.Web.Controllers
 
             return View(evt);
         }
-
+        [Authorize]
         // GET: /Events/Create
         public async Task<IActionResult> Create()
         {
@@ -61,20 +65,25 @@ namespace EventSpark.Web.Controllers
 
         // POST: /Events/Create
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Event model)
         {
-            if (!ModelState.IsValid)
+            // get the current logged-in user's Id from claims
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
             {
-                await PopulateCategoriesDropDownList(model.CategoryId);
-                return View(model);
+                // should not happen because of [Authorize], but just in case
+                return Challenge();
             }
 
-            // TODO: replace with real logged-in user (Organizer) once Identity is added
-            model.OrganizerId = "demo-organizer";
+            model.OrganizerId = userId;
 
             model.CreatedAt = DateTime.UtcNow;
             model.UpdatedAt = DateTime.UtcNow;
+
+            if (model.Status == 0)
+                model.Status = EventStatus.Draft;
 
             _db.Events.Add(model);
             await _db.SaveChangesAsync();
@@ -82,91 +91,94 @@ namespace EventSpark.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: /Events/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null) return NotFound();
 
-            var evt = await _db.Events.FindAsync(id.Value);
+        // GET: /Events/Edit/5
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var evt = await _db.Events.FindAsync(id);
             if (evt == null) return NotFound();
 
-            await PopulateCategoriesDropDownList(evt.CategoryId);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null || evt.OrganizerId != userId)
+            {
+                return Forbid(); // 403 if they don't own this event
+            }
+
             return View(evt);
         }
+
 
         // POST: /Events/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, byte[] rowVersion)
+        public async Task<IActionResult> Edit(Event model)
         {
-            var evtToUpdate = await _db.Events.FirstOrDefaultAsync(e => e.EventId == id);
-            if (evtToUpdate == null) return NotFound();
+            var evt = await _db.Events.FindAsync(model.EventId);
+            if (evt == null) return NotFound();
 
-            // TryUpdateModelAsync protects against overposting
-            if (await TryUpdateModelAsync(evtToUpdate, "",
-                    e => e.Title,
-                    e => e.Description,
-                    e => e.VenueName,
-                    e => e.VenueAddress,
-                    e => e.City,
-                    e => e.CategoryId,
-                    e => e.StartDateTime,
-                    e => e.EndDateTime,
-                    e => e.Status,
-                    e => e.ImagePath,
-                    e => e.MaxCapacity))
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null || evt.OrganizerId != userId)
             {
-                evtToUpdate.UpdatedAt = DateTime.UtcNow;
-
-                // Concurrency: attach original RowVersion
-                _db.Entry(evtToUpdate).Property("RowVersion").OriginalValue = rowVersion;
-
-                try
-                {
-                    await _db.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    ModelState.AddModelError(
-                        "",
-                        "This event was modified by another user. Please reload the page and try again."
-                    );
-                }
+                return Forbid();
             }
 
-            await PopulateCategoriesDropDownList(evtToUpdate.CategoryId);
-            return View(evtToUpdate);
+            // update editable fields
+            evt.Title = model.Title;
+            evt.Description = model.Description;
+            evt.VenueName = model.VenueName;
+            evt.VenueAddress = model.VenueAddress;
+            evt.City = model.City;
+            evt.StartDateTime = model.StartDateTime;
+            evt.EndDateTime = model.EndDateTime;
+            evt.Status = model.Status;
+            evt.ImagePath = model.ImagePath;
+            evt.MaxCapacity = model.MaxCapacity;
+            evt.UpdatedAt = DateTime.UtcNow;
+
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
 
+
         // GET: /Events/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null) return NotFound();
-
-            var evt = await _db.Events
-                .Include(e => e.Category)
-                .FirstOrDefaultAsync(e => e.EventId == id.Value);
-
+            var evt = await _db.Events.FirstOrDefaultAsync(e => e.EventId == id);
             if (evt == null) return NotFound();
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null || evt.OrganizerId != userId)
+            {
+                return Forbid();
+            }
 
             return View(evt);
         }
 
         // POST: /Events/Delete/5
+        [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var evt = await _db.Events.FindAsync(id);
-            if (evt != null)
+            if (evt == null) return NotFound();
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null || evt.OrganizerId != userId)
             {
-                _db.Events.Remove(evt);
-                await _db.SaveChangesAsync();
+                return Forbid();
             }
 
+            _db.Events.Remove(evt);
+            await _db.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
-        }
+        } 
 
         // Helper for dropdown
         private async Task PopulateCategoriesDropDownList(object? selectedCategory = null)
