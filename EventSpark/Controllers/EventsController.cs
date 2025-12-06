@@ -178,7 +178,26 @@ namespace EventSpark.Web.Controllers
             await _db.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
-        } 
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> MyEvents()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                // Shouldn’t happen because of [Authorize], but just in case:
+                return Challenge();
+            }
+
+            var myEvents = await _db.Events
+                .Where(e => e.OrganizerId == userId)
+                .OrderByDescending(e => e.StartDateTime)
+                .ToListAsync();
+
+            return View(myEvents);
+        }
 
         // Helper for dropdown
         private async Task PopulateCategoriesDropDownList(object? selectedCategory = null)

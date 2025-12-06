@@ -1,0 +1,46 @@
+﻿@model IEnumerable<EventSpark.Core.Entities.Event>
+
+@{
+    ViewData["Title"] = "My Events";
+}
+
+<h1>My Events</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New Event</a>
+</p>
+
+@if (!Model.Any())
+{
+    <p>You haven't created any events yet.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>City</th>
+                <th>Start</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var e in Model)
+            {
+                <tr>
+                    <td>@e.Title</td>
+                    <td>@e.City</td>
+                    <td>@e.StartDateTime</td>
+                    <td>@e.Status</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@e.EventId">Details</a> |
+                        <a asp-action="Edit" asp-route-id="@e.EventId">Edit</a> |
+                        <a asp-action="Delete" asp-route-id="@e.EventId">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
