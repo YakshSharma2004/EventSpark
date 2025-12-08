@@ -1,0 +1,54 @@
+﻿@model IEnumerable<EventSpark.Core.Entities.TicketType>
+
+@{
+    ViewData["Title"] = "Ticket Types";
+    var evt = ViewBag.Event as EventSpark.Core.Entities.Event;
+}
+
+<h1>Ticket Types for @evt?.Title</h1>
+
+<p>
+    <a asp-action="Create" asp-route-eventId="@evt?.EventId" class="btn btn-primary">
+        Add Ticket Type
+    </a>
+    <a asp-controller="Events" asp-action="Edit" asp-route-id="@evt?.EventId" class="btn btn-secondary">
+        Back to Event
+    </a>
+</p>
+
+@if (!Model.Any())
+{
+    <p>No ticket types yet. Add one!</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Sale Window</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var t in Model)
+            {
+                <tr>
+                    <td>@t.Name</td>
+                    <td>@t.Price.ToString("C")</td>
+                    <td>@t.TotalQuantity</td>
+                    <td>
+                        @t.SaleStartUtc?.ToString("g") -
+                        @t.SaleEndUtc?.ToString("g")
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@t.TicketTypeId">Edit</a> |
+                        <a asp-action="Delete" asp-route-id="@t.TicketTypeId">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

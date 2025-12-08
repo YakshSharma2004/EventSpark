@@ -6,10 +6,6 @@
 
 <h1>My Events</h1>
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">Create New Event</a>
-</p>
-
 @if (!Model.Any())
 {
     <p>You haven't created any events yet.</p>
@@ -37,7 +33,18 @@ else
                     <td>
                         <a asp-action="Details" asp-route-id="@e.EventId">Details</a> |
                         <a asp-action="Edit" asp-route-id="@e.EventId">Edit</a> |
-                        <a asp-action="Delete" asp-route-id="@e.EventId">Delete</a>
+                        <a asp-action="Delete" asp-route-id="@e.EventId">Delete</a> |
+                        <a asp-controller="TicketTypes"
+                           asp-action="Index"
+                           asp-route-eventId="@e.EventId">
+                            Manage Ticket Types
+                        </a> |
+                        <a asp-controller="Orders"
+                           asp-action="Purchase"
+                           asp-route-eventId="@e.EventId"
+                           class="btn btn-sm btn-success">
+                            Buy Tickets
+                        </a>
                     </td>
                 </tr>
             }

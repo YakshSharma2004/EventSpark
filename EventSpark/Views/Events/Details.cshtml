@@ -30,3 +30,11 @@
     <a asp-action="Edit" asp-route-id="@Model.EventId">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </p>
+<p>
+    <a asp-controller="Orders"
+       asp-action="Purchase"
+       asp-route-eventId="@Model.EventId"
+       class="btn btn-success">
+        Buy Tickets
+    </a>
+</p>

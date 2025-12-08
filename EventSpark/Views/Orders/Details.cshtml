@@ -1,0 +1,50 @@
+﻿@model EventSpark.Web.Models.OrderDetailsViewModel
+
+@{
+    ViewData["Title"] = "Order Details";
+}
+
+<h1>Order #@Model.OrderId</h1>
+
+<p>
+    <strong>Event:</strong> @Model.EventTitle<br />
+    <strong>When:</strong> @Model.EventStartDateTime<br />
+    <strong>Where:</strong> @Model.VenueName<br />
+    <strong>Ordered On:</strong> @Model.CreatedAt<br />
+</p>
+
+<h3>Tickets</h3>
+
+@if (!Model.Tickets.Any())
+{
+    <p>No tickets found for this order.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Ticket #</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var t in Model.Tickets)
+            {
+                <tr>
+                    <td>@t.TicketNumber</td>
+                    <td>@t.TicketTypeName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<p>
+    <strong>Total Paid:</strong> @Model.TotalAmount.ToString("C")
+</p>
+
+<p>
+    <a asp-controller="Orders" asp-action="MyOrders" class="btn btn-secondary">Back to My Orders</a>
+    <a asp-controller="Orders" asp-action="MyTickets" class="btn btn-outline-secondary">My Tickets</a>
+</p>

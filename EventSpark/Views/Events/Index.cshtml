@@ -1,7 +1,9 @@
 ﻿@model IEnumerable<EventSpark.Core.Entities.Event>
+@using EventSpark.Core.Enums
 
 @{
     ViewData["Title"] = "Events";
+    var currentUserId = ViewBag.CurrentUserId as string;
 }
 
 <h1>Events</h1>
@@ -31,10 +33,41 @@
                 <td>@e.StartDateTime</td>
                 <td>@e.Status</td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@e.EventId">Details</a> |
-                    <a asp-action="Edit" asp-route-id="@e.EventId">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@e.EventId">Delete</a>
+                    <a asp-action="Details" asp-route-id="@e.EventId">Details</a>
+
+                    @* Only owner sees Edit/Delete/Manage Ticket Types *@
+                    @if (!string.IsNullOrEmpty(currentUserId) && e.OrganizerId == currentUserId)
+                    {
+                        <text> | </text>
+
+                        <a asp-action="Edit" asp-route-id="@e.EventId">Edit</a>
+                        <text> | </text>
+
+                        <a asp-action="Delete" asp-route-id="@e.EventId">Delete</a>
+                        <text> | </text>
+
+                        <a asp-controller="TicketTypes"
+                                           asp-action="Index"
+                                           asp-route-eventId="@e.EventId">
+                            Manage Ticket Types
+                        </a>
+                    }
+
+                    @* Anyone can see Buy (if you want) *@
+                    @if (e.Status == EventStatus.Published)
+                    {
+                        <text> | </text>
+
+                        <a asp-controller="Orders"
+                                           asp-action="Purchase"
+                                           asp-route-eventId="@e.EventId"
+                                           class="btn btn-sm btn-success">
+                            Buy
+                        </a>
+                    }
                 </td>
+
+
             </tr>
         }
     </tbody>

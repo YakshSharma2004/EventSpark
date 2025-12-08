@@ -1,0 +1,46 @@
+﻿@model IEnumerable<EventSpark.Web.Models.MyTicketListItemViewModel>
+
+@{
+    ViewData["Title"] = "My Tickets";
+}
+
+<h1>My Tickets</h1>
+
+@if (!Model.Any())
+{
+    <p>You don't have any tickets yet.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Event</th>
+                <th>Date</th>
+                <th>Venue</th>
+                <th>Ticket #</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Order #</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var t in Model)
+            {
+                <tr>
+                    <td>@t.EventTitle</td>
+                    <td>@t.EventStartDateTime</td>
+                    <td>@t.VenueName</td>
+                    <td>@t.TicketNumber</td>
+                    <td>@t.TicketTypeName</td>
+                    <td>@t.Status</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@t.OrderId">
+                            @t.OrderId
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

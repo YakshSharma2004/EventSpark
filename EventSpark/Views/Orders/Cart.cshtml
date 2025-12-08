@@ -1,0 +1,57 @@
+﻿@model EventSpark.Web.Models.OrderCartViewModel
+
+@{
+    ViewData["Title"] = "Review Order";
+}
+
+<h1>Review Your Order</h1>
+
+<h3>@Model.EventTitle</h3>
+<p>
+    @Model.EventStartDateTime<br />
+    @Model.VenueName
+</p>
+
+<form asp-action="ConfirmAndPay" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="EventId" />
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Ticket Type</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Line Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Lines.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @Model.Lines[i].Name
+                        <input type="hidden" asp-for="Lines[@i].TicketTypeId" />
+                        <input type="hidden" asp-for="Lines[@i].Name" />
+                        <input type="hidden" asp-for="Lines[@i].UnitPrice" />
+                    </td>
+                    <td>@Model.Lines[i].UnitPrice.ToString("C")</td>
+                    <td>
+                        @Model.Lines[i].Quantity
+                        <input type="hidden" asp-for="Lines[@i].Quantity" />
+                    </td>
+                    <td>@Model.Lines[i].LineTotal.ToString("C")</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="3" class="text-end">Total:</th>
+                <th>@Model.TotalAmount.ToString("C")</th>
+            </tr>
+        </tfoot>
+    </table>
+
+    <button type="submit" class="btn btn-primary">Confirm &amp; Pay</button>
+    <a asp-action="Purchase" asp-route-eventId="@Model.EventId" class="btn btn-secondary">Back</a>
+</form>

@@ -1,0 +1,44 @@
+﻿@model IEnumerable<EventSpark.Web.Models.MyOrderListItemViewModel>
+
+@{
+    ViewData["Title"] = "My Orders";
+}
+
+<h1>My Orders</h1>
+
+@if (!Model.Any())
+{
+    <p>You don't have any orders yet.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Order #</th>
+                <th>Event</th>
+                <th>Date</th>
+                <th>Venue</th>
+                <th>Ordered On</th>
+                <th>Total</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var o in Model)
+            {
+                <tr>
+                    <td>@o.OrderId</td>
+                    <td>@o.EventTitle</td>
+                    <td>@o.EventStartDateTime</td>
+                    <td>@o.VenueName</td>
+                    <td>@o.CreatedAt</td>
+                    <td>@o.TotalAmount.ToString("C")</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@o.OrderId">View</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

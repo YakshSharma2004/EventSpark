@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EventSpark.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6c5541a2382261c2bfde1761bd1e39445757d653")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+870a22d86f747722c30ccb7c7ed155b3f24a3110")]
 [assembly: System.Reflection.AssemblyProductAttribute("EventSpark.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EventSpark.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

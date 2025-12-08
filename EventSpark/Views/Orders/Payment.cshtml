@@ -1,0 +1,39 @@
+﻿@model EventSpark.Web.Models.PaymentStatusViewModel
+
+@{
+    ViewData["Title"] = "Payment";
+}
+
+<h1>Processing Payment</h1>
+
+<div id="processing">
+    <p>Processing your payment for Order #@Model.OrderId...</p>
+    <p>Amount: @Model.TotalAmount.ToString("C")</p>
+
+    <!-- Simple spinner using Bootstrap if available, or just text -->
+    <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+
+<div id="success" style="display:none;">
+    <h2>Payment Succeeded 🎉</h2>
+    <p>Your order has been confirmed and your tickets are ready.</p>
+
+    <a asp-action="Details" asp-route-id="@Model.OrderId" class="btn btn-primary">
+        View My Order
+    </a>
+    <a asp-action="MyTickets" class="btn btn-secondary">
+        Go to My Tickets
+    </a>
+</div>
+
+@section Scripts {
+    <script>
+        // Fake gateway: wait 2 seconds, then show success
+        setTimeout(function () {
+            document.getElementById("processing").style.display = "none";
+            document.getElementById("success").style.display = "block";
+        }, 2000);
+    </script>
+}

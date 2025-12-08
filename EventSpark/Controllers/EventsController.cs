@@ -24,14 +24,17 @@ namespace EventSpark.Web.Controllers
 
         [AllowAnonymous]
         // GET: /Events
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var eventsQuery = _db.Events
-                .Include(e => e.Category)
-                .OrderBy(e => e.StartDateTime);
+            var eventsList = await _db.Events
+                .OrderBy(e => e.StartDateTime)
+                .ToListAsync();
 
-            var events = await eventsQuery.ToListAsync();
-            return View(events);
+            // Logged-in user id (null if anonymous)
+            ViewBag.CurrentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            return View(eventsList);
         }
         [AllowAnonymous]
         // GET: /Events/Details/5
@@ -165,21 +168,44 @@ namespace EventSpark.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null) return Challenge();
+
             var evt = await _db.Events.FindAsync(id);
             if (evt == null) return NotFound();
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userId == null || evt.OrganizerId != userId)
+            // only organizer who owns it can delete
+            if (evt.OrganizerId != userId)
             {
                 return Forbid();
             }
 
+            // 1) if any tickets exist, don’t allow delete – event has orders
+            var hasTickets = await _db.Tickets.AnyAsync(t => t.EventId == id);
+            if (hasTickets)
+            {
+                TempData["ErrorMessage"] =
+                    "This event has existing orders/tickets and cannot be deleted. " +
+                    "You can mark it as Cancelled instead.";
+                return RedirectToAction(nameof(Details), new { id });
+            }
+
+            // 2) delete check-in logs for this event (could have TicketId = NULL)
+            var logs = _db.CheckInLogs.Where(l => l.EventId == id);
+            _db.CheckInLogs.RemoveRange(logs);
+
+            // 3) delete ticket types for this event
+            var ticketTypes = _db.TicketTypes.Where(tt => tt.EventId == id);
+            _db.TicketTypes.RemoveRange(ticketTypes);
+
+            // 4) finally delete the event itself
             _db.Events.Remove(evt);
+
             await _db.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(MyEvents));
         }
-
+        // GET: /Events/MyEvents
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> MyEvents()
