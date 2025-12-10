@@ -300,6 +300,7 @@ namespace EventSpark.Web.Controllers
                 .Where(e => e.OrganizerId == userId)
                 .OrderByDescending(e => e.StartDateTime)
                 .ToListAsync();
+            ViewBag.CurrentUserId = userId;
 
             return View(myEvents);
         }

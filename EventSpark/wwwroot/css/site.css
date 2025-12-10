@@ -29,3 +29,434 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+/* Auth pages (login/register) */
+
+.auth-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at top left, #f6f9ff 0, #eef2ff 30%, #f9fafb 100%);
+}
+
+.auth-card {
+    max-width: 420px;
+    width: 100%;
+    border-radius: 1rem;
+    border: none;
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
+}
+
+    .auth-card .card-header {
+        border-bottom: none;
+        padding-bottom: 0;
+        background: transparent;
+    }
+
+.auth-logo-circle {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2563eb, #10b981);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.4rem;
+    margin-bottom: 0.75rem;
+}
+
+.auth-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.auth-subtitle {
+    font-size: 0.9rem;
+    color: #6b7280;
+}
+
+.auth-card .form-label {
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.auth-card .btn-primary {
+    border-radius: 999px;
+    font-weight: 600;
+}
+
+.auth-footer {
+    font-size: 0.85rem;
+    color: #6b7280;
+}
+
+    .auth-footer a {
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+
+/* Event cards */
+
+.event-card {
+    border-radius: 1rem;
+    border: none;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.event-card-header {
+    border-bottom: none;
+    background: linear-gradient(135deg, #2563eb, #10b981);
+    color: #fff;
+    padding: 0.9rem 1.1rem;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+}
+
+    .event-card-header h5 {
+        margin: 0;
+        font-size: 1.05rem;
+        font-weight: 600;
+    }
+
+.event-card-body {
+    padding: 0.9rem 1.1rem 0.8rem;
+    flex: 1;
+}
+
+.event-card-footer {
+    padding: 0.8rem 1.1rem 1rem;
+    border-top: 1px solid #e5e7eb;
+    background-color: #f9fafb;
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+}
+
+.event-meta {
+    font-size: 0.85rem;
+    color: #6b7280;
+}
+
+    .event-meta i {
+        margin-right: 0.25rem;
+    }
+
+.badge-status {
+    font-size: 0.75rem;
+}
+.event-city {
+    color: #111827; /* near-black */
+}
+/* Orders page */
+
+.order-card {
+    border-radius: 0.9rem;
+    border: none;
+    box-shadow: 0 10px 26px rgba(15, 23, 42, 0.12);
+    margin-bottom: 1rem;
+}
+
+.order-card-header {
+    padding: 0.8rem 1rem 0.6rem;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order-card-header-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.order-card-body {
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+}
+
+.order-meta {
+    color: #6b7280;
+    font-size: 0.85rem;
+}
+
+.order-card-footer {
+    padding: 0.7rem 1rem 0.9rem;
+    border-top: 1px solid #e5e7eb;
+    background-color: #f9fafb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.badge-order {
+    font-size: 0.75rem;
+}
+/* Ticket cards */
+
+.ticket-card {
+    border-radius: 1rem;
+    border: none;
+    box-shadow: 0 10px 26px rgba(15, 23, 42, 0.12);
+    margin-bottom: 1rem;
+    display: flex;
+    overflow: hidden;
+}
+
+.ticket-card-left {
+    padding: 0.9rem 1.1rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.ticket-card-right {
+    min-width: 140px;
+    padding: 0.8rem;
+    background: #f9fafb;
+    border-left: 1px dashed #d1d5db;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .ticket-card-right img {
+        max-width: 120px;
+        max-height: 120px;
+    }
+
+.ticket-event-title {
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+.ticket-meta {
+    font-size: 0.85rem;
+    color: #6b7280;
+}
+
+    .ticket-meta strong {
+        color: #111827;
+    }
+
+.ticket-footer-row {
+    margin-top: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+}
+
+.badge-ticket-status {
+    font-size: 0.75rem;
+}
+
+/* Status colors – adjust to your TicketStatus enum values */
+.badge-ticket-active {
+    background-color: #16a34a; /* green-600 */
+}
+
+.badge-ticket-cancelled {
+    background-color: #ef4444; /* red-500 */
+}
+
+.badge-ticket-refunded {
+    background-color: #f97316; /* orange-500 */
+}
+/* Order details */
+
+.order-detail-card {
+    border-radius: 1rem;
+    border: none;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+}
+
+.order-detail-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.order-detail-meta {
+    font-size: 0.9rem;
+    color: #6b7280;
+}
+
+    .order-detail-meta strong {
+        color: #111827;
+    }
+
+.ticket-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.ticket-list-item {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+}
+
+    .ticket-list-item:last-child {
+        border-bottom: none;
+    }
+
+.ticket-list-number {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    color: #111827;
+}
+/* Ticket types */
+
+.ticket-type-card {
+    border-radius: 0.9rem;
+    border: none;
+    box-shadow: 0 10px 26px rgba(15, 23, 42, 0.12);
+    margin-bottom: 0.9rem;
+}
+
+.ticket-type-body {
+    padding: 0.8rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.ticket-type-main {
+    flex: 1;
+}
+
+.ticket-type-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.1rem;
+}
+
+.ticket-type-desc {
+    font-size: 0.85rem;
+    color: #6b7280;
+    margin-bottom: 0.25rem;
+}
+
+.ticket-type-meta {
+    font-size: 0.8rem;
+    color: #6b7280;
+}
+
+    .ticket-type-meta strong {
+        color: #111827;
+    }
+
+.ticket-type-price {
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.ticket-type-actions {
+    padding: 0.6rem 1rem 0.8rem;
+    border-top: 1px solid #e5e7eb;
+    background-color: #f9fafb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+}
+.navbar-main {
+    background: linear-gradient(90deg, #0f172a, #1e293b, #334155);
+}
+
+.brand-logo-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #f9fafb;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.navbar-main .nav-link {
+    font-size: 0.9rem;
+}
+
+    .navbar-main .nav-link:hover {
+        text-decoration: underline;
+    }
+
+.footer {
+    background-color: #f9fafb;
+}
+/* Create/Edit event form */
+
+.event-form-card {
+    border-radius: 1rem;
+    border: none;
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
+}
+
+.event-form-badge {
+    padding: 0.25rem 0.8rem;
+    border-radius: 999px;
+    background: rgba(59, 130, 246, 0.12);
+    color: #1d4ed8;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    font-weight: 600;
+}
+
+.event-form-card .form-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.event-form-card .form-control,
+.event-form-card .form-select {
+    font-size: 0.9rem;
+}
+/* Event details */
+
+.event-detail-card {
+    border-radius: 1rem;
+    border: none;
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
+    overflow: hidden;
+}
+
+.event-detail-image-wrapper {
+    max-height: 260px;
+    overflow: hidden;
+}
+
+.event-detail-image {
+    width: 100%;
+    object-fit: cover;
+}
+
+.event-detail-meta {
+    font-size: 0.9rem;
+    color: #6b7280;
+}
+
+    .event-detail-meta strong {
+        color: #111827;
+    }

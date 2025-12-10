@@ -4,86 +4,113 @@
     ViewData["Title"] = "Create Event";
 }
 
-<h1>Create Event</h1>
+<h1 class="mb-3">Create Event</h1>
 
-<form asp-action="Create" method="post">
-    @Html.AntiForgeryToken()
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    
+<div class="card event-form-card mb-4">
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+                <h5 class="card-title mb-1">Event details</h5>
+                <p class="text-muted small mb-0">
+                    Give your event a clear name, description, location, and schedule.
+                </p>
+            </div>
+            <div class="event-form-badge d-none d-md-inline-flex">
+                New
+            </div>
+        </div>
 
-    <div class="mb-3">
-        <label asp-for="Title" class="form-label"></label>
-        <input asp-for="Title" class="form-control" />
-        <span asp-validation-for="Title" class="text-danger"></span>
+        <form asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="row g-3">
+                <div class="col-md-8">
+                    <div class="mb-3 mb-md-0">
+                        <label asp-for="Title" class="form-label"></label>
+                        <input asp-for="Title" class="form-control" placeholder="Summer Music Festival 2025" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Category</label>
+                    <select asp-for="CategoryId" asp-items="ViewBag.CategoryId" class="form-select">
+                        <option value="">(None)</option>
+                    </select>
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="mb-3 mt-3">
+                <label asp-for="Description" class="form-label"></label>
+                <textarea asp-for="Description" class="form-control" rows="4"
+                          placeholder="Describe the experience, schedule, and any important details for attendees."></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label asp-for="VenueName" class="form-label"></label>
+                    <input asp-for="VenueName" class="form-control" placeholder="Convention Center Hall A" />
+                    <span asp-validation-for="VenueName" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="VenueAddress" class="form-label"></label>
+                    <input asp-for="VenueAddress" class="form-control" placeholder="123 Main St, Calgary" />
+                    <span asp-validation-for="VenueAddress" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row g-3 mt-1">
+                <div class="col-md-4">
+                    <label asp-for="City" class="form-label"></label>
+                    <input asp-for="City" class="form-control" placeholder="Calgary" />
+                    <span asp-validation-for="City" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="StartDateTime" class="form-label"></label>
+                    <input asp-for="StartDateTime" class="form-control" />
+                    <span asp-validation-for="StartDateTime" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="EndDateTime" class="form-label"></label>
+                    <input asp-for="EndDateTime" class="form-control" />
+                    <span asp-validation-for="EndDateTime" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row g-3 mt-3">
+                <div class="col-md-4">
+                    <label asp-for="Status" class="form-label"></label>
+                    <select asp-for="Status" class="form-select"
+                            asp-items="Html.GetEnumSelectList<EventSpark.Core.Enums.EventStatus>()">
+                    </select>
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="MaxCapacity" class="form-label"></label>
+                    <input asp-for="MaxCapacity" class="form-control" placeholder="Optional" />
+                    <span asp-validation-for="MaxCapacity" class="text-danger"></span>
+                    <div class="form-text">
+                        Leave blank if there is no strict capacity.
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="ImagePath" class="form-label"></label>
+                    <input asp-for="ImagePath" class="form-control" placeholder="Optional image URL" />
+                    <span asp-validation-for="ImagePath" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2 mt-4">
+                <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                <button type="submit" class="btn btn-primary">
+                    Save Event
+                </button>
+            </div>
+        </form>
     </div>
-
-    <div class="mb-3">
-        <label asp-for="Description" class="form-label"></label>
-        <textarea asp-for="Description" class="form-control" rows="4"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="VenueName" class="form-label"></label>
-        <input asp-for="VenueName" class="form-control" />
-        <span asp-validation-for="VenueName" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="VenueAddress" class="form-label"></label>
-        <input asp-for="VenueAddress" class="form-control" />
-        <span asp-validation-for="VenueAddress" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="City" class="form-label"></label>
-        <input asp-for="City" class="form-control" />
-        <span asp-validation-for="City" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Category</label>
-        <select asp-for="CategoryId" asp-items="ViewBag.CategoryId" class="form-select">
-            <option value="">(None)</option>
-        </select>
-        <span asp-validation-for="CategoryId" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="StartDateTime" class="form-label"></label>
-        <input asp-for="StartDateTime" class="form-control" />
-        <span asp-validation-for="StartDateTime" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="EndDateTime" class="form-label"></label>
-        <input asp-for="EndDateTime" class="form-control" />
-        <span asp-validation-for="EndDateTime" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="Status" class="form-label"></label>
-        <select asp-for="Status" class="form-select"
-                asp-items="Html.GetEnumSelectList<EventSpark.Core.Enums.EventStatus>()">
-        </select>
-        <span asp-validation-for="Status" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="ImagePath" class="form-label"></label>
-        <input asp-for="ImagePath" class="form-control" />
-        <span asp-validation-for="ImagePath" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="MaxCapacity" class="form-label"></label>
-        <input asp-for="MaxCapacity" class="form-control" />
-        <span asp-validation-for="MaxCapacity" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Save</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-</form>
+</div>
 
 @section Scripts {
     @{

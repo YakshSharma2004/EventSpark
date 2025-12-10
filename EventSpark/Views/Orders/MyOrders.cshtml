@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<EventSpark.Web.Models.MyOrderListItemViewModel>
+@using System.Linq
 
 @{
     ViewData["Title"] = "My Orders";
@@ -8,37 +9,51 @@
 
 @if (!Model.Any())
 {
-    <p>You don't have any orders yet.</p>
+    <p>You have not placed any orders yet.</p>
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Order #</th>
-                <th>Event</th>
-                <th>Date</th>
-                <th>Venue</th>
-                <th>Ordered On</th>
-                <th>Total</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var o in Model)
-            {
-                <tr>
-                    <td>@o.OrderId</td>
-                    <td>@o.EventTitle</td>
-                    <td>@o.EventStartDateTime</td>
-                    <td>@o.VenueName</td>
-                    <td>@o.CreatedAt</td>
-                    <td>@o.TotalAmount.ToString("C")</td>
-                    <td>
-                        <a asp-action="Details" asp-route-id="@o.OrderId">View</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    @foreach (var order in Model.OrderByDescending(o => o.CreatedAt))
+    {
+        <div class="card order-card">
+            <div class="order-card-header">
+                <div>
+                    <div class="order-card-header-title">
+                        Order #@order.OrderId
+                    </div>
+                    <div class="order-meta">
+                        Placed @order.CreatedAt.ToLocalTime().ToString("ddd, MMM dd yyyy h:mm tt")
+                    </div>
+                </div>
+
+                <div class="fw-semibold">
+                    @order.TotalAmount.ToString("C")
+                </div>
+            </div>
+
+            <div class="order-card-body">
+                <div class="mb-1">
+                    <strong>@order.EventTitle</strong>
+                </div>
+                <div class="order-meta">
+                    @order.EventStartDateTime.ToString("ddd, MMM dd yyyy h:mm tt")
+                    @if (!string.IsNullOrWhiteSpace(order.VenueName))
+                    {
+                        <span> · @order.VenueName</span>
+                    }
+                </div>
+            </div>
+
+            <div class="order-card-footer">
+                <div class="order-meta">
+                    Order ID: @order.OrderId
+                </div>
+                <a asp-action="Details"
+                   asp-route-id="@order.OrderId"
+                   class="btn btn-sm btn-outline-primary">
+                    View details
+                </a>
+            </div>
+        </div>
+    }
 }

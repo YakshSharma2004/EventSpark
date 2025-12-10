@@ -2,21 +2,35 @@
 
 @{
     ViewData["Title"] = "Delete Ticket Type";
-    var evt = ViewBag.Event as EventSpark.Core.Entities.Event;
 }
 
-<h1>Delete Ticket Type for @evt?.Title</h1>
+<h1>Delete Ticket Type</h1>
 
-<h3>Are you sure you want to delete this ticket type?</h3>
-
-<div>
-    <p><strong>Name:</strong> @Model.Name</p>
-    <p><strong>Price:</strong> @Model.Price.ToString("C")</p>
-    <p><strong>Quantity:</strong> @Model.TotalQuantity</p>
+<div class="alert alert-warning">
+    <strong>Are you sure you want to delete this ticket type?</strong>
+    <div class="mt-1">
+        This will prevent new tickets of this type from being sold.
+        Existing tickets already sold will remain in the system.
+    </div>
 </div>
 
-<form asp-action="Delete" method="post">
+<div class="card mb-3">
+    <div class="card-body">
+        <h5 class="card-title">@Model.Name</h5>
+        <p class="card-text">
+            @Model.Description
+        </p>
+        <p class="card-text">
+            <strong>Price:</strong> @Model.Price.ToString("C")<br />
+            <strong>Total quantity:</strong> @Model.TotalQuantity
+        </p>
+    </div>
+</div>
+
+<form asp-action="DeleteConfirmed" method="post">
+    @Html.AntiForgeryToken()
     <input type="hidden" asp-for="TicketTypeId" />
-    <button type="submit" class="btn btn-danger">Delete</button>
-    <a asp-action="Index" asp-route-eventId="@Model.EventId" class="btn btn-secondary">Cancel</a>
+    <input type="hidden" asp-for="EventId" />
+    <button type="submit" class="btn btn-danger">Yes, delete</button>
+    <a asp-action="Index" asp-route-eventId="@Model.EventId" class="btn btn-secondary ms-2">Cancel</a>
 </form>

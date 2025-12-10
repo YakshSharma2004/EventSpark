@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using EventSpark.Core.Auth;
 using EventSpark.Core.Entities;
 using EventSpark.Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization;
@@ -20,29 +21,40 @@ namespace EventSpark.Web.Controllers
             _db = db;
         }
 
-        // Helper: ensure the current user owns the event
-        private async Task<Event?> GetOwnedEventAsync(int eventId)
+        // Helper: load event and ensure current user can manage it (owner or Admin)
+        private async Task<Event?> GetEventUserCanManageAsync(int eventId)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId == null) return null;
 
-            return await _db.Events
-                .FirstOrDefaultAsync(e => e.EventId == eventId && e.OrganizerId == userId);
+            var evt = await _db.Events.FirstOrDefaultAsync(e => e.EventId == eventId);
+            if (evt == null) return null;
+
+            if (evt.OrganizerId != userId && !User.IsInRole(AppRole.Admin))
+            {
+                return null;
+            }
+
+            return evt;
         }
 
         // GET: /TicketTypes/Index?eventId=5
         [HttpGet]
         public async Task<IActionResult> Index(int eventId)
         {
-            var evt = await GetOwnedEventAsync(eventId);
-            if (evt == null) return Forbid(); // or NotFound() if you prefer
+            var evt = await GetEventUserCanManageAsync(eventId);
+            if (evt == null) return Forbid();
 
             var types = await _db.TicketTypes
                 .Where(t => t.EventId == eventId)
                 .OrderBy(t => t.Price)
                 .ToListAsync();
 
-            ViewBag.Event = evt;
+            // ✅ These match the view code we wrote earlier
+            ViewBag.EventId = evt.EventId;
+            ViewBag.EventTitle = evt.Title;
+            ViewBag.EventStart = evt.StartDateTime;
+
             return View(types);
         }
 
@@ -50,7 +62,7 @@ namespace EventSpark.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Create(int eventId)
         {
-            var evt = await GetOwnedEventAsync(eventId);
+            var evt = await GetEventUserCanManageAsync(eventId);
             if (evt == null) return Forbid();
 
             var model = new TicketType
@@ -62,7 +74,10 @@ namespace EventSpark.Web.Controllers
                 SaleEndUtc = DateTime.UtcNow.AddMonths(1)
             };
 
-            ViewBag.Event = evt;
+            ViewBag.EventId = evt.EventId;
+            ViewBag.EventTitle = evt.Title;
+            ViewBag.EventStart = evt.StartDateTime;
+
             return View(model);
         }
 
@@ -71,10 +86,17 @@ namespace EventSpark.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(TicketType model)
         {
-            var evt = await GetOwnedEventAsync(model.EventId);
+            var evt = await GetEventUserCanManageAsync(model.EventId);
             if (evt == null) return Forbid();
 
-            // keep it simple: no ModelState checks yet
+            if (!ModelState.IsValid)
+            {
+                ViewBag.EventId = evt.EventId;
+                ViewBag.EventTitle = evt.Title;
+                ViewBag.EventStart = evt.StartDateTime;
+                return View(model);
+            }
+
             model.CreatedAt = DateTime.UtcNow;
 
             _db.TicketTypes.Add(model);
@@ -93,10 +115,13 @@ namespace EventSpark.Web.Controllers
 
             if (tt == null) return NotFound();
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userId == null || tt.Event.OrganizerId != userId) return Forbid();
+            var evt = await GetEventUserCanManageAsync(tt.EventId);
+            if (evt == null) return Forbid();
 
-            ViewBag.Event = tt.Event;
+            ViewBag.EventId = evt.EventId;
+            ViewBag.EventTitle = evt.Title;
+            ViewBag.EventStart = evt.StartDateTime;
+
             return View(tt);
         }
 
@@ -111,8 +136,16 @@ namespace EventSpark.Web.Controllers
 
             if (tt == null) return NotFound();
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userId == null || tt.Event.OrganizerId != userId) return Forbid();
+            var evt = await GetEventUserCanManageAsync(tt.EventId);
+            if (evt == null) return Forbid();
+
+            if (!ModelState.IsValid)
+            {
+                ViewBag.EventId = evt.EventId;
+                ViewBag.EventTitle = evt.Title;
+                ViewBag.EventStart = evt.StartDateTime;
+                return View(model);
+            }
 
             // update editable fields
             tt.Name = model.Name;
@@ -137,10 +170,13 @@ namespace EventSpark.Web.Controllers
 
             if (tt == null) return NotFound();
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userId == null || tt.Event.OrganizerId != userId) return Forbid();
+            var evt = await GetEventUserCanManageAsync(tt.EventId);
+            if (evt == null) return Forbid();
 
-            ViewBag.Event = tt.Event;
+            ViewBag.EventId = evt.EventId;
+            ViewBag.EventTitle = evt.Title;
+            ViewBag.EventStart = evt.StartDateTime;
+
             return View(tt);
         }
 
@@ -155,8 +191,8 @@ namespace EventSpark.Web.Controllers
 
             if (tt == null) return NotFound();
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userId == null || tt.Event.OrganizerId != userId) return Forbid();
+            var evt = await GetEventUserCanManageAsync(tt.EventId);
+            if (evt == null) return Forbid();
 
             var eventId = tt.EventId;
 

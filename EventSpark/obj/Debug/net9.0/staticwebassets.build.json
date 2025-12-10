@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "W/6u7N+ML+mrF+Zrc0rEOkrDrL6/7kA7abaQqK9Yf+E=",
+  "Hash": "AoBdXKmAAtXPbo+w/Z5ju9Sfy8+vZwWRLCgdrbTMW1E=",
   "Source": "EventSpark.Web",
   "BasePath": "_content/EventSpark.Web",
   "Mode": "Default",
@@ -2285,12 +2285,12 @@
       "OriginalItemSpec": "C:\\Users\\yaksh\\Documents\\GitHub\\EventSpark\\EventSpark\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map"
     },
     {
-      "Identity": "C:\\Users\\yaksh\\Documents\\GitHub\\EventSpark\\EventSpark\\obj\\Debug\\net9.0\\compressed\\fc4twrjdsc-b9sayid5wm.gz",
+      "Identity": "C:\\Users\\yaksh\\Documents\\GitHub\\EventSpark\\EventSpark\\obj\\Debug\\net9.0\\compressed\\fc4twrjdsc-ei9lddev3z.gz",
       "SourceId": "EventSpark.Web",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\yaksh\\Documents\\GitHub\\EventSpark\\EventSpark\\obj\\Debug\\net9.0\\compressed\\",
       "BasePath": "_content/EventSpark.Web",
-      "RelativePath": "css/site#[.{fingerprint=b9sayid5wm}]?.css.gz",
+      "RelativePath": "css/site#[.{fingerprint=ei9lddev3z}]?.css.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
@@ -2299,8 +2299,8 @@
       "RelatedAsset": "C:\\Users\\yaksh\\Documents\\GitHub\\EventSpark\\EventSpark\\wwwroot\\css\\site.css",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "wf4wcyqcqt",
-      "Integrity": "fNKkLSNFLZMVTc2zVrpMXQqOwPU3sU4GWcfEbCR2V1I=",
+      "Fingerprint": "0aol85s3pm",
+      "Integrity": "2NXMZcSTCxiYygHCWQA7b8u0tZSVAzjUIf3gU6G6qao=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\yaksh\\Documents\\GitHub\\EventSpark\\EventSpark\\wwwroot\\css\\site.css"
@@ -4042,8 +4042,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "b9sayid5wm",
-      "Integrity": "j6fhJSuuyLpOSLuPJU0TsDV0iNjor5S3rDnvxJrt4bg=",
+      "Fingerprint": "ei9lddev3z",
+      "Integrity": "mrsNk3sZ7M/I7ApjZ9leOn7TIPPqlMCtZVAK1yP5m50=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
@@ -5353,13 +5353,13 @@
   ],
   "Endpoints": [
     {
-      "Route": "css/site.b9sayid5wm.css",
-      "AssetFile": "C:\\Users\\yaksh\\Documents\\GitHub\\EventSpark\\EventSpark\\obj\\Debug\\net9.0\\compressed\\fc4twrjdsc-b9sayid5wm.gz",
+      "Route": "css/site.css",
+      "AssetFile": "C:\\Users\\yaksh\\Documents\\GitHub\\EventSpark\\EventSpark\\obj\\Debug\\net9.0\\compressed\\fc4twrjdsc-ei9lddev3z.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.003125000000"
+          "Quality": "0.000503271263"
         }
       ],
       "ResponseHeaders": [
@@ -5369,19 +5369,19 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "319"
+          "Value": "1986"
         },
         {
           "Name": "ETag",
-          "Value": "\"fNKkLSNFLZMVTc2zVrpMXQqOwPU3sU4GWcfEbCR2V1I=\""
+          "Value": "\"2NXMZcSTCxiYygHCWQA7b8u0tZSVAzjUIf3gU6G6qao=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 05 Dec 2025 06:54:35 GMT"
+          "Value": "Wed, 10 Dec 2025 23:02:10 GMT"
         },
         {
           "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
+          "Value": "no-cache"
         },
         {
           "Name": "Content-Encoding",
@@ -5397,26 +5397,18 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"j6fhJSuuyLpOSLuPJU0TsDV0iNjor5S3rDnvxJrt4bg=\""
+          "Value": "W/\"mrsNk3sZ7M/I7ApjZ9leOn7TIPPqlMCtZVAK1yP5m50=\""
         }
       ],
       "EndpointProperties": [
         {
-          "Name": "fingerprint",
-          "Value": "b9sayid5wm"
-        },
-        {
-          "Name": "label",
-          "Value": "css/site.css"
-        },
-        {
           "Name": "integrity",
-          "Value": "sha256-j6fhJSuuyLpOSLuPJU0TsDV0iNjor5S3rDnvxJrt4bg="
+          "Value": "sha256-mrsNk3sZ7M/I7ApjZ9leOn7TIPPqlMCtZVAK1yP5m50="
         }
       ]
     },
     {
-      "Route": "css/site.b9sayid5wm.css",
+      "Route": "css/site.css",
       "AssetFile": "C:\\Users\\yaksh\\Documents\\GitHub\\EventSpark\\EventSpark\\wwwroot\\css\\site.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -5426,7 +5418,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "667"
+          "Value": "8979"
         },
         {
           "Name": "Content-Type",
@@ -5434,11 +5426,156 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"j6fhJSuuyLpOSLuPJU0TsDV0iNjor5S3rDnvxJrt4bg=\""
+          "Value": "\"mrsNk3sZ7M/I7ApjZ9leOn7TIPPqlMCtZVAK1yP5m50=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 05 Dec 2025 06:54:35 GMT"
+          "Value": "Wed, 10 Dec 2025 23:02:10 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-mrsNk3sZ7M/I7ApjZ9leOn7TIPPqlMCtZVAK1yP5m50="
+        }
+      ]
+    },
+    {
+      "Route": "css/site.css.gz",
+      "AssetFile": "C:\\Users\\yaksh\\Documents\\GitHub\\EventSpark\\EventSpark\\obj\\Debug\\net9.0\\compressed\\fc4twrjdsc-ei9lddev3z.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1986"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"2NXMZcSTCxiYygHCWQA7b8u0tZSVAzjUIf3gU6G6qao=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 10 Dec 2025 23:02:10 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-2NXMZcSTCxiYygHCWQA7b8u0tZSVAzjUIf3gU6G6qao="
+        }
+      ]
+    },
+    {
+      "Route": "css/site.ei9lddev3z.css",
+      "AssetFile": "C:\\Users\\yaksh\\Documents\\GitHub\\EventSpark\\EventSpark\\obj\\Debug\\net9.0\\compressed\\fc4twrjdsc-ei9lddev3z.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000503271263"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1986"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"2NXMZcSTCxiYygHCWQA7b8u0tZSVAzjUIf3gU6G6qao=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 10 Dec 2025 23:02:10 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"mrsNk3sZ7M/I7ApjZ9leOn7TIPPqlMCtZVAK1yP5m50=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "ei9lddev3z"
+        },
+        {
+          "Name": "label",
+          "Value": "css/site.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-mrsNk3sZ7M/I7ApjZ9leOn7TIPPqlMCtZVAK1yP5m50="
+        }
+      ]
+    },
+    {
+      "Route": "css/site.ei9lddev3z.css",
+      "AssetFile": "C:\\Users\\yaksh\\Documents\\GitHub\\EventSpark\\EventSpark\\wwwroot\\css\\site.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "8979"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"mrsNk3sZ7M/I7ApjZ9leOn7TIPPqlMCtZVAK1yP5m50=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 10 Dec 2025 23:02:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5448,7 +5585,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "b9sayid5wm"
+          "Value": "ei9lddev3z"
         },
         {
           "Name": "label",
@@ -5456,13 +5593,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-j6fhJSuuyLpOSLuPJU0TsDV0iNjor5S3rDnvxJrt4bg="
+          "Value": "sha256-mrsNk3sZ7M/I7ApjZ9leOn7TIPPqlMCtZVAK1yP5m50="
         }
       ]
     },
     {
-      "Route": "css/site.b9sayid5wm.css.gz",
-      "AssetFile": "C:\\Users\\yaksh\\Documents\\GitHub\\EventSpark\\EventSpark\\obj\\Debug\\net9.0\\compressed\\fc4twrjdsc-b9sayid5wm.gz",
+      "Route": "css/site.ei9lddev3z.css.gz",
+      "AssetFile": "C:\\Users\\yaksh\\Documents\\GitHub\\EventSpark\\EventSpark\\obj\\Debug\\net9.0\\compressed\\fc4twrjdsc-ei9lddev3z.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -5471,7 +5608,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "319"
+          "Value": "1986"
         },
         {
           "Name": "Content-Type",
@@ -5479,11 +5616,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"fNKkLSNFLZMVTc2zVrpMXQqOwPU3sU4GWcfEbCR2V1I=\""
+          "Value": "\"2NXMZcSTCxiYygHCWQA7b8u0tZSVAzjUIf3gU6G6qao=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 05 Dec 2025 06:54:35 GMT"
+          "Value": "Wed, 10 Dec 2025 23:02:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5501,7 +5638,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "b9sayid5wm"
+          "Value": "ei9lddev3z"
         },
         {
           "Name": "label",
@@ -5509,144 +5646,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-fNKkLSNFLZMVTc2zVrpMXQqOwPU3sU4GWcfEbCR2V1I="
-        }
-      ]
-    },
-    {
-      "Route": "css/site.css",
-      "AssetFile": "C:\\Users\\yaksh\\Documents\\GitHub\\EventSpark\\EventSpark\\obj\\Debug\\net9.0\\compressed\\fc4twrjdsc-b9sayid5wm.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.003125000000"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "319"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"fNKkLSNFLZMVTc2zVrpMXQqOwPU3sU4GWcfEbCR2V1I=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Fri, 05 Dec 2025 06:54:35 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"j6fhJSuuyLpOSLuPJU0TsDV0iNjor5S3rDnvxJrt4bg=\""
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-j6fhJSuuyLpOSLuPJU0TsDV0iNjor5S3rDnvxJrt4bg="
-        }
-      ]
-    },
-    {
-      "Route": "css/site.css",
-      "AssetFile": "C:\\Users\\yaksh\\Documents\\GitHub\\EventSpark\\EventSpark\\wwwroot\\css\\site.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "667"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"j6fhJSuuyLpOSLuPJU0TsDV0iNjor5S3rDnvxJrt4bg=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Fri, 05 Dec 2025 06:54:35 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-j6fhJSuuyLpOSLuPJU0TsDV0iNjor5S3rDnvxJrt4bg="
-        }
-      ]
-    },
-    {
-      "Route": "css/site.css.gz",
-      "AssetFile": "C:\\Users\\yaksh\\Documents\\GitHub\\EventSpark\\EventSpark\\obj\\Debug\\net9.0\\compressed\\fc4twrjdsc-b9sayid5wm.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "319"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"fNKkLSNFLZMVTc2zVrpMXQqOwPU3sU4GWcfEbCR2V1I=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Fri, 05 Dec 2025 06:54:35 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-fNKkLSNFLZMVTc2zVrpMXQqOwPU3sU4GWcfEbCR2V1I="
+          "Value": "sha256-2NXMZcSTCxiYygHCWQA7b8u0tZSVAzjUIf3gU6G6qao="
         }
       ]
     },

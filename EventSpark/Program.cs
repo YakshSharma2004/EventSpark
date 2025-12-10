@@ -17,7 +17,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 {
     options.SignIn.RequireConfirmedAccount = false; // for demo, no email confirm
 })
-    .AddRoles<IdentityRole>()                            // we’ll use roles later (Admin/Organizer/Attendee)
+    .AddRoles<IdentityRole>()                            // weï¿½ll use roles later (Admin/Organizer/Attendee)
     .AddEntityFrameworkStores<EventSparkDbContext>();
 
 var app = builder.Build();

@@ -1,54 +1,114 @@
 ﻿@model IEnumerable<EventSpark.Core.Entities.TicketType>
+@using EventSpark.Core.Entities
 
 @{
     ViewData["Title"] = "Ticket Types";
-    var evt = ViewBag.Event as EventSpark.Core.Entities.Event;
+
+    var eventId = ViewBag.EventId as int? ?? 0;
+    var eventTitle = ViewBag.EventTitle as string;
+    var eventStart = ViewBag.EventStart as DateTime?;
 }
 
-<h1>Ticket Types for @evt?.Title</h1>
+<h1 class="mb-3">Ticket Types</h1>
+
+@if (!string.IsNullOrWhiteSpace(eventTitle))
+{
+    <div class="mb-3 text-muted">
+        For event: <strong>@eventTitle</strong>
+        @if (eventStart.HasValue)
+        {
+            <span> · @eventStart.Value.ToLocalTime().ToString("ddd, MMM dd yyyy h:mm tt")</span>
+        }
+    </div>
+}
 
 <p>
-    <a asp-action="Create" asp-route-eventId="@evt?.EventId" class="btn btn-primary">
+    <a asp-action="Create"
+       asp-route-eventId="@eventId"
+       class="btn btn-primary">
         Add Ticket Type
     </a>
-    <a asp-controller="Events" asp-action="Edit" asp-route-id="@evt?.EventId" class="btn btn-secondary">
+    <a asp-controller="Events"
+       asp-action="Edit"
+       asp-route-id="@eventId"
+       class="btn btn-outline-secondary ms-2">
         Back to Event
     </a>
 </p>
 
 @if (!Model.Any())
 {
-    <p>No ticket types yet. Add one!</p>
+    <p>No ticket types defined yet.</p>
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Sale Window</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var t in Model)
-            {
-                <tr>
-                    <td>@t.Name</td>
-                    <td>@t.Price.ToString("C")</td>
-                    <td>@t.TotalQuantity</td>
-                    <td>
-                        @t.SaleStartUtc?.ToString("g") -
-                        @t.SaleEndUtc?.ToString("g")
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@t.TicketTypeId">Edit</a> |
-                        <a asp-action="Delete" asp-route-id="@t.TicketTypeId">Delete</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    @foreach (var t in Model)
+    {
+        <div class="card ticket-type-card">
+            <div class="ticket-type-body">
+                <div class="ticket-type-main">
+                    <div class="ticket-type-name">@t.Name</div>
+
+                    @if (!string.IsNullOrWhiteSpace(t.Description))
+                    {
+                        <div class="ticket-type-desc">
+                            @(
+                                t.Description.Length > 120
+                                ? t.Description.Substring(0, 117) + "..."
+                                : t.Description
+                                )
+                        </div>
+                    }
+
+                    <div class="ticket-type-meta">
+                        <strong>Total:</strong> @t.TotalQuantity
+                        @* Remaining is computed in Orders, so we don’t show it here to avoid extra DB logic *@
+                        @if (t.SaleStartUtc.HasValue || t.SaleEndUtc.HasValue)
+                        {
+                            <br />
+                            <strong>Sales:</strong>
+                            @if (t.SaleStartUtc.HasValue)
+                            {
+                                <span> from @t.SaleStartUtc.Value.ToLocalTime().ToString("MMM dd, yyyy")</span>
+                            }
+                            @if (t.SaleEndUtc.HasValue)
+                            {
+                                <span> to @t.SaleEndUtc.Value.ToLocalTime().ToString("MMM dd, yyyy")</span>
+                            }
+                        }
+                    </div>
+                </div>
+
+                <div class="text-end">
+                    <div class="ticket-type-price">
+                        @t.Price.ToString("C")
+                    </div>
+                </div>
+            </div>
+
+            <div class="ticket-type-actions">
+                <div>
+                    <a asp-action="Edit"
+                       asp-route-id="@t.TicketTypeId"
+                       class="btn btn-sm btn-outline-primary me-1">
+                        Edit
+                    </a>
+
+                    <form asp-action="Delete"
+                          asp-route-id="@t.TicketTypeId"
+                          method="post"
+                          class="d-inline"
+                          onsubmit="return confirm('Are you sure you want to delete ticket type &quot;@t.Name&quot;?');">
+                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                            Delete
+                        </button>
+                    </form>
+                </div>
+
+                <div class="text-muted small">
+                    ID: @t.TicketTypeId
+                </div>
+            </div>
+        </div>
+    }
 }

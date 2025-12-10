@@ -78,55 +78,85 @@
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>City</th>
-                <th>Start</th>
-                <th>Status</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
         @foreach (var e in Model.Events)
         {
-            <tr>
-                <td>@e.Title</td>
-                <td>@e.City</td>
-                <td>@e.StartDateTime</td>
-                <td>@e.Status</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@e.EventId">Details</a>
+            <div class="col">
+                <div class="card event-card">
+                    <div class="event-card-header d-flex justify-content-between align-items-start">
+                        <div class="me-2">
+                            <h5 class="text-truncate" title="@e.Title">@e.Title</h5>
+                            <div class="event-meta event-city">
+                                <i class="bi bi-geo-alt"></i>@e.City
+                            </div>
+                        </div>
+                        <span class="badge badge-status @(e.Status == EventStatus.Published ? "bg-success" : "bg-secondary")">
+                            @e.Status
+                        </span>
+                    </div>
 
-                    @* Only owner sees Edit/Delete/Manage Ticket Types *@
-                    @if (!string.IsNullOrEmpty(currentUserId) && e.OrganizerId == currentUserId)
-                    {
-                        <text> | </text><a asp-action="Edit" asp-route-id="@e.EventId">Edit</a>
-                        <text> | </text><a asp-action="Delete" asp-route-id="@e.EventId">Delete</a>
-                        <text> | </text><a asp-controller="TicketTypes"
-                                          asp-action="Index"
-                                          asp-route-eventId="@e.EventId">
-                            Manage Ticket Types
-                        </a>
-                    }
+                    <div class="event-card-body">
+                        <div class="event-meta mb-2">
+                            <i class="bi bi-calendar-event"></i>
+                            @e.StartDateTime.ToString("ddd, MMM dd yyyy h:mm tt")
+                        </div>
 
-                    @* Anyone can buy published events *@
-                    @if (e.Status == EventStatus.Published)
-                    {
-                        <text> | </text><a asp-controller="Orders"
-                                          asp-action="Purchase"
-                                          asp-route-eventId="@e.EventId"
-                                          class="btn btn-sm btn-success">
-                            Buy
-                        </a>
-                    }
-                </td>
-            </tr>
+                        @if (!string.IsNullOrWhiteSpace(e.VenueName))
+                        {
+                            <div class="event-meta mb-2">
+                                <i class="bi bi-building"></i>@e.VenueName
+                            </div>
+                        }
+
+                        @if (!string.IsNullOrWhiteSpace(e.Description))
+                        {
+                            <p class="mb-0 small text-muted">
+                                @(
+                                    e.Description.Length > 120
+                                    ? e.Description.Substring(0, 117) + "..."
+                                    : e.Description
+                                    )
+                            </p>
+                        }
+                    </div>
+
+                    <div class="event-card-footer d-flex justify-content-between align-items-center">
+                        <div class="small">
+                            <a asp-action="Details" asp-route-id="@e.EventId">Details</a>
+
+                            @* Only owner sees Edit/Delete/Manage Ticket Types *@
+                            @if (!string.IsNullOrEmpty(currentUserId) && e.OrganizerId == currentUserId)
+                            {
+                                <span class="text-muted"> | </span>
+                                <a asp-action="Edit" asp-route-id="@e.EventId">Edit</a>
+                                <span class="text-muted"> | </span>
+                                <a asp-action="Delete" asp-route-id="@e.EventId">Delete</a>
+                                <span class="text-muted"> | </span>
+                                <a asp-controller="TicketTypes"
+                                   asp-action="Index"
+                                   asp-route-eventId="@e.EventId">
+                                    Ticket Types
+                                </a>
+                            }
+                        </div>
+
+                        @* Anyone can buy published events *@
+                        @if (e.Status == EventStatus.Published)
+                        {
+                            <a asp-controller="Orders"
+                               asp-action="Purchase"
+                               asp-route-eventId="@e.EventId"
+                               class="btn btn-sm btn-success">
+                                Buy
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
         }
-        </tbody>
-    </table>
+    </div>
 }
+
 
 @if (Model.TotalPages > 1)
 {
