@@ -1,0 +1,78 @@
+﻿@model EventSpark.Web.Models.AdminDashboardViewModel
+
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<h1>Admin Dashboard</h1>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">Total Events</h5>
+                <p class="display-6">@Model.TotalEvents</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">Tickets Sold</h5>
+                <p class="display-6">@Model.TotalTicketsSold</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">Checked In</h5>
+                <p class="display-6">@Model.TotalTicketsCheckedIn</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">Revenue</h5>
+                <p class="display-6">@Model.TotalRevenue.ToString("C")</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (!Model.Events.Any())
+{
+    <p>No events found.</p>
+}
+else
+{
+    <h2>Event Stats</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Event</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Tickets Sold</th>
+                <th>Checked In</th>
+                <th>No-show</th>
+                <th>Revenue</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var e in Model.Events)
+            {
+                <tr>
+                    <td>@e.Title</td>
+                    <td>@e.StartDateTime</td>
+                    <td>@e.Status</td>
+                    <td>@e.TicketsSold</td>
+                    <td>@e.TicketsCheckedIn</td>
+                    <td>@e.NoShow</td>
+                    <td>@e.Revenue.ToString("C")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<EventSpark.Core.Entities.Event>
+﻿@model EventSpark.Web.Models.EventListViewModel
 @using EventSpark.Core.Enums
 
 @{
@@ -12,22 +12,86 @@
     <a asp-action="Create" class="btn btn-primary">Create New Event</a>
 </p>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Title</th>
-            <th>City</th>
-            <th>Start</th>
-            <th>Status</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var e in Model)
+<form method="get" class="mb-4">
+    <div class="row g-2">
+        <div class="col-md-3">
+            <input type="text"
+                   name="search"
+                   value="@Model.SearchTerm"
+                   class="form-control"
+                   placeholder="Search title or description" />
+        </div>
+
+        <div class="col-md-2">
+            <select name="categoryId" class="form-select">
+                <option value="">All categories</option>
+                @foreach (var cat in Model.Categories)
+                {
+                    <option value="@cat.EventCategoryId"
+                            selected="@(Model.SelectedCategoryId.HasValue && Model.SelectedCategoryId.Value == cat.EventCategoryId)">
+                        @cat.Name
+                    </option>
+                }
+            </select>
+
+        </div>
+
+        <div class="col-md-2">
+            <select name="city" class="form-select">
+                <option value="">All cities</option>
+                @foreach (var c in Model.Cities)
+                {
+                    <option value="@c"
+                            selected="@(string.Equals(Model.SelectedCity, c, StringComparison.OrdinalIgnoreCase))">
+                        @c
+                    </option>
+                }
+            </select>
+
+        </div>
+
+        <div class="col-md-2">
+            <input type="date"
+                   name="from"
+                   value="@(Model.FromDate?.ToString("yyyy-MM-dd"))"
+                   class="form-control"
+                   placeholder="From date" />
+        </div>
+
+        <div class="col-md-2">
+            <input type="date"
+                   name="to"
+                   value="@(Model.ToDate?.ToString("yyyy-MM-dd"))"
+                   class="form-control"
+                   placeholder="To date" />
+        </div>
+
+        <div class="col-md-1">
+            <button type="submit" class="btn btn-primary w-100">Filter</button>
+        </div>
+    </div>
+</form>
+
+@if (!Model.Events.Any())
+{
+    <p>No events found matching your filters.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>City</th>
+                <th>Start</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var e in Model.Events)
         {
             <tr>
-                <td>@e.EventId</td>
                 <td>@e.Title</td>
                 <td>@e.City</td>
                 <td>@e.StartDateTime</td>
@@ -38,37 +102,53 @@
                     @* Only owner sees Edit/Delete/Manage Ticket Types *@
                     @if (!string.IsNullOrEmpty(currentUserId) && e.OrganizerId == currentUserId)
                     {
-                        <text> | </text>
-
-                        <a asp-action="Edit" asp-route-id="@e.EventId">Edit</a>
-                        <text> | </text>
-
-                        <a asp-action="Delete" asp-route-id="@e.EventId">Delete</a>
-                        <text> | </text>
-
-                        <a asp-controller="TicketTypes"
-                                           asp-action="Index"
-                                           asp-route-eventId="@e.EventId">
+                        <text> | </text><a asp-action="Edit" asp-route-id="@e.EventId">Edit</a>
+                        <text> | </text><a asp-action="Delete" asp-route-id="@e.EventId">Delete</a>
+                        <text> | </text><a asp-controller="TicketTypes"
+                                          asp-action="Index"
+                                          asp-route-eventId="@e.EventId">
                             Manage Ticket Types
                         </a>
                     }
 
-                    @* Anyone can see Buy (if you want) *@
+                    @* Anyone can buy published events *@
                     @if (e.Status == EventStatus.Published)
                     {
-                        <text> | </text>
-
-                        <a asp-controller="Orders"
-                                           asp-action="Purchase"
-                                           asp-route-eventId="@e.EventId"
-                                           class="btn btn-sm btn-success">
+                        <text> | </text><a asp-controller="Orders"
+                                          asp-action="Purchase"
+                                          asp-route-eventId="@e.EventId"
+                                          class="btn btn-sm btn-success">
                             Buy
                         </a>
                     }
                 </td>
-
-
             </tr>
         }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+}
+
+@if (Model.TotalPages > 1)
+{
+    <nav aria-label="Event pages">
+        <ul class="pagination">
+            @for (int p = 1; p <= Model.TotalPages; p++)
+            {
+                var isCurrent = p == Model.Page;
+                <li class="page-item @(isCurrent ? "active" : "")">
+                    <a class="page-link"
+                       href="@Url.Action("Index", new {
+                                page = p,
+                                search = Model.SearchTerm,
+                                categoryId = Model.SelectedCategoryId,
+                                city = Model.SelectedCity,
+                                from = Model.FromDate?.ToString("yyyy-MM-dd"),
+                                to = Model.ToDate?.ToString("yyyy-MM-dd")
+                            })">
+                        @p
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+}

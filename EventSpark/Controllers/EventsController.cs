@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using EventSpark.Web.Models;
 
 namespace EventSpark.Web.Controllers
 {
@@ -22,19 +23,100 @@ namespace EventSpark.Web.Controllers
             _db = db;
         }
 
+
         [AllowAnonymous]
-        // GET: /Events
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(
+            string? search,
+            int? categoryId,
+            string? city,
+            DateTime? from,
+            DateTime? to,
+            int page = 1,
+            int pageSize = 10)
         {
-            var eventsList = await _db.Events
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            ViewBag.CurrentUserId = currentUserId;
+
+            // Base query: show published events publicly
+            var query = _db.Events
+                .Where(e => e.Status == EventStatus.Published)
+                .AsQueryable();
+
+            // Text search (title or description)
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                var term = search.Trim();
+                query = query.Where(e =>
+                    e.Title.Contains(term) ||
+                    e.Description.Contains(term));
+            }
+
+            // Category filter
+            if (categoryId.HasValue)
+            {
+                query = query.Where(e => e.CategoryId == categoryId.Value);
+            }
+
+            // City filter
+            if (!string.IsNullOrWhiteSpace(city))
+            {
+                var cityTrimmed = city.Trim();
+                query = query.Where(e => e.City == cityTrimmed);
+            }
+
+            // Date range (based on StartDateTime)
+            if (from.HasValue)
+            {
+                var fromDate = from.Value.Date;
+                query = query.Where(e => e.StartDateTime >= fromDate);
+            }
+
+            if (to.HasValue)
+            {
+                // Include entire "to" day
+                var toDateExclusive = to.Value.Date.AddDays(1);
+                query = query.Where(e => e.StartDateTime < toDateExclusive);
+            }
+
+            // Count before paging
+            var totalCount = await query.CountAsync();
+
+            if (page < 1) page = 1;
+            if (pageSize < 1) pageSize = 10;
+
+            var events = await query
                 .OrderBy(e => e.StartDateTime)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
 
-            // Logged-in user id (null if anonymous)
-            ViewBag.CurrentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var categories = await _db.EventCategories
+                .OrderBy(c => c.Name)
+                .ToListAsync();
 
-            return View(eventsList);
+            var cities = await _db.Events
+                .Select(e => e.City)
+                .Distinct()
+                .OrderBy(c => c)
+                .ToListAsync();
+
+            var vm = new EventListViewModel
+            {
+                SearchTerm = search,
+                SelectedCategoryId = categoryId,
+                SelectedCity = city,
+                FromDate = from,
+                ToDate = to,
+                Page = page,
+                PageSize = pageSize,
+                TotalCount = totalCount,
+                Events = events,
+                Categories = categories,
+                Cities = cities
+            };
+
+            return View(vm);
         }
         [AllowAnonymous]
         // GET: /Events/Details/5
