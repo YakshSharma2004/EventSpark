@@ -4,11 +4,14 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using EventSpark.Core.Auth;
 using EventSpark.Core.Entities;
 using EventSpark.Core.Enums;
 using EventSpark.Infrastructure.Data;
+using EventSpark.Infrastructure.Identity;
 using EventSpark.Web.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,14 +22,19 @@ namespace EventSpark.Web.Controllers
     {
         private readonly EventSparkDbContext _db;
 
-        public DashboardController(EventSparkDbContext db)
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public DashboardController(EventSparkDbContext db, UserManager<ApplicationUser> userManager)
         {
             _db = db;
+            _userManager = userManager;
         }
+
 
         // =======================
         // Organizer dashboard
         // =======================
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> My()
         {
@@ -88,16 +96,20 @@ namespace EventSpark.Web.Controllers
         // =======================
         // Admin dashboard (all events)
         // =======================
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = AppRole.Admin)]
         [HttpGet]
         public async Task<IActionResult> Admin()
         {
+            var now = DateTime.UtcNow;
+
+            // All events
             var events = await _db.Events
                 .OrderBy(e => e.StartDateTime)
                 .ToListAsync();
 
             var eventIds = events.Select(e => e.EventId).ToList();
 
+            // All tickets (with order items)
             var tickets = await _db.Tickets
                 .Include(t => t.OrderItem)
                 .Where(t => eventIds.Contains(t.EventId))
@@ -107,8 +119,20 @@ namespace EventSpark.Web.Controllers
                 .GroupBy(t => t.EventId)
                 .ToDictionary(g => g.Key, g => g.ToList());
 
-            var vm = new AdminDashboardViewModel();
+            // Global aggregates
+            var vm = new AdminDashboardViewModel
+            {
+                TotalEvents = events.Count,
+                TotalUpcomingEvents = events.Count(e => e.StartDateTime >= now),
+                TotalPastEvents = events.Count(e => e.StartDateTime < now),
+                TotalOrders = await _db.Orders.CountAsync(),
+                TotalUsers = await _userManager.Users.CountAsync(),
+                TotalTicketsSold = tickets.Count(t => t.Status == TicketStatus.Active),
+                TotalTicketsCheckedIn = tickets.Count(t => t.CheckedInAt != null),
+                TotalRevenue = await _db.Orders.SumAsync(o => o.TotalAmount)
+            };
 
+            // Per-event stats
             foreach (var ev in events)
             {
                 ticketsByEvent.TryGetValue(ev.EventId, out var evTickets);
@@ -132,18 +156,14 @@ namespace EventSpark.Web.Controllers
                 });
             }
 
-            vm.TotalEvents = vm.Events.Count;
-            vm.TotalTicketsSold = vm.Events.Sum(x => x.TicketsSold);
-            vm.TotalTicketsCheckedIn = vm.Events.Sum(x => x.TicketsCheckedIn);
-            vm.TotalRevenue = vm.Events.Sum(x => x.Revenue);
-
-            // We'll fill TotalUsers later when we wire roles/UserManager
             return View(vm);
         }
+
 
         // =======================
         // CSV export per event
         // =======================
+        [Authorize(Roles = AppRole.Admin)]
         [HttpGet]
         public async Task<IActionResult> ExportEventTicketsCsv(int eventId)
         {

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using EventSpark.Core.Auth;
 using EventSpark.Core.Entities;
 using EventSpark.Core.Enums;
 using EventSpark.Infrastructure.Data;
@@ -12,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EventSpark.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = AppRole.Admin)]
     public class CheckInController : Controller
     {
         private readonly EventSparkDbContext _db;

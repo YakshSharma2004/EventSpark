@@ -1,3 +1,4 @@
+using EventSpark.Core.Auth;
 using EventSpark.Infrastructure.Data;
 using EventSpark.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -20,6 +21,12 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     .AddEntityFrameworkStores<EventSparkDbContext>();
 
 var app = builder.Build();
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await SeedRolesAndAdminAsync(services);
+}
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -44,3 +51,45 @@ app.MapRazorPages();
 
 
 app.Run();
+async Task SeedRolesAndAdminAsync(IServiceProvider services)
+{
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+
+    // 1. Ensure roles exist
+    string[] roles = { AppRole.Admin};
+
+    foreach (var roleName in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(roleName))
+        {
+            await roleManager.CreateAsync(new IdentityRole(roleName));
+        }
+    }
+
+    // 2. Create a default admin user (also an Organizer)
+    var adminEmail = "admin@eventspark.local";
+    var adminUser = await userManager.FindByEmailAsync(adminEmail);
+
+    if (adminUser == null)
+    {
+        adminUser = new ApplicationUser
+        {
+            UserName = adminEmail,
+            Email = adminEmail,
+            EmailConfirmed = true
+        };
+
+        //  Password just for local dev/demo; you can change it
+        var createResult = await userManager.CreateAsync(adminUser, "Admin123!");
+
+        if (createResult.Succeeded)
+        {
+            await userManager.AddToRoleAsync(adminUser, AppRole.Admin);
+        }
+        else
+        {
+            // Optional: log errors somewhere
+        }
+    }
+}

@@ -14,6 +14,7 @@
 
 <form asp-action="ConfirmAndPay" method="post">
     @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <input type="hidden" asp-for="EventId" />
 
     <table class="table">

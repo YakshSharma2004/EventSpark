@@ -12,26 +12,37 @@ namespace EventSpark.Core.Entities
     {
         public int TicketTypeId { get; set; }
 
+        [Required]
         public int EventId { get; set; }
 
-        [Required, MaxLength(100)]
-        public string Name { get; set; } = null!;
+        [Required]
+        [StringLength(100)]
+        public string Name { get; set; } = "";
 
-        [MaxLength(400)]
+        [StringLength(400)]
         public string? Description { get; set; }
 
-        [Column(TypeName = "decimal(10,2)")]
+        [Required]
+        [Range(0, 999999)]
+        [DataType(DataType.Currency)]
         public decimal Price { get; set; }
 
+        [Required]
+        [Display(Name = "Total Quantity Available")]
+        [Range(0, 100000)]
         public int TotalQuantity { get; set; }
 
+        [Display(Name = "Sales Start (UTC)")]
+        [DataType(DataType.DateTime)]
         public DateTime? SaleStartUtc { get; set; }
+
+        [Display(Name = "Sales End (UTC)")]
+        [DataType(DataType.DateTime)]
         public DateTime? SaleEndUtc { get; set; }
 
         public DateTime CreatedAt { get; set; }
 
-        [Timestamp]
-        public byte[] RowVersion { get; set; } = null!;
+        public byte[] RowVersion { get; set; } = Array.Empty<byte>();
 
         // Navigation
         public Event Event { get; set; } = null!;

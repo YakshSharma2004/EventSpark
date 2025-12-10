@@ -8,6 +8,7 @@ using EventSpark.Core.Enums;
 using EventSpark.Infrastructure.Data;
 using EventSpark.Web.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QRCoder;
@@ -139,6 +140,101 @@ namespace EventSpark.Web.Controllers
         // ============================
         // 3) CONFIRM & PAY (CREATE ORDER)
         // ============================
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> ConfirmAndPay(OrderCartViewModel model)
+        //{
+        //    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //    if (userId == null) return Challenge();
+
+        //    var requested = model.Lines?
+        //        .Where(l => l.Quantity > 0)
+        //        .ToList() ?? new();
+
+        //    if (!requested.Any())
+        //    {
+        //        return RedirectToAction(nameof(Purchase), new { eventId = model.EventId });
+        //    }
+
+        //    var evt = await _db.Events
+        //        .FirstOrDefaultAsync(e => e.EventId == model.EventId && e.Status == EventStatus.Published);
+
+        //    if (evt == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var ticketTypeIds = requested.Select(r => r.TicketTypeId).Distinct().ToList();
+
+        //    var ticketTypes = await _db.TicketTypes
+        //        .Where(tt => tt.EventId == model.EventId && ticketTypeIds.Contains(tt.TicketTypeId))
+        //        .ToListAsync();
+
+        //    if (ticketTypes.Count != ticketTypeIds.Count)
+        //    {
+        //        return RedirectToAction(nameof(Purchase), new { eventId = model.EventId });
+        //    }
+
+        //    decimal total = 0m;
+        //    foreach (var line in requested)
+        //    {
+        //        var tt = ticketTypes.First(t => t.TicketTypeId == line.TicketTypeId);
+        //        total += line.Quantity * tt.Price;
+        //    }
+
+        //    var order = new Order
+        //    {
+        //        BuyerId = userId,
+        //        CreatedAt = DateTime.UtcNow,
+        //        Status = OrderStatus.Completed,     // mock success
+        //        TotalAmount = total,
+        //        PaymentReference = "TEST-" + Guid.NewGuid().ToString("N").Substring(0, 8),
+        //        EmailSnapshot = User.Identity?.Name,
+        //        FullNameSnapshot = null
+        //    };
+
+        //    _db.Orders.Add(order);
+
+        //    foreach (var line in requested)
+        //    {
+        //        var tt = ticketTypes.First(t => t.TicketTypeId == line.TicketTypeId);
+
+        //        var orderItem = new OrderItem
+        //        {
+        //            Order = order,
+        //            TicketTypeId = tt.TicketTypeId,
+        //            Quantity = line.Quantity,
+        //            UnitPrice = tt.Price,
+        //            TicketTypeNameSnapshot = tt.Name
+        //        };
+
+        //        _db.OrderItems.Add(orderItem);
+
+        //        for (int i = 0; i < line.Quantity; i++)
+        //        {
+        //            var ticketNumber = $"EVT{tt.EventId}-TT{tt.TicketTypeId}-{Guid.NewGuid():N}".Substring(0, 40);
+
+        //            // Use the ticket number itself as the QR content
+        //            var ticket = new Ticket
+        //            {
+        //                OrderItem = orderItem,
+        //                EventId = tt.EventId,
+        //                TicketNumber = ticketNumber,
+        //                QrCodeValue = ticketNumber, // 🔴 changed
+        //                Status = TicketStatus.Active,
+        //                CreatedAt = DateTime.UtcNow
+        //            };
+
+
+        //            _db.Tickets.Add(ticket);
+        //        }
+        //    }
+
+        //    await _db.SaveChangesAsync();
+
+        //    return RedirectToAction(nameof(Payment), new { id = order.OrderId });
+        //}
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ConfirmAndPay(OrderCartViewModel model)
@@ -146,36 +242,97 @@ namespace EventSpark.Web.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId == null) return Challenge();
 
-            var requested = model.Lines?
+            // Sanity: must have an event
+            var evt = await _db.Events.FirstOrDefaultAsync(e => e.EventId == model.EventId);
+            if (evt == null) return NotFound();
+
+            // Keep only lines with a quantity
+            var selectedLines = (model.Lines ?? new List<CartLineViewModel>())
                 .Where(l => l.Quantity > 0)
-                .ToList() ?? new();
+                .ToList();
 
-            if (!requested.Any())
+            if (!selectedLines.Any())
             {
-                return RedirectToAction(nameof(Purchase), new { eventId = model.EventId });
+                ModelState.AddModelError(string.Empty, "Please select at least one ticket.");
             }
 
-            var evt = await _db.Events
-                .FirstOrDefaultAsync(e => e.EventId == model.EventId && e.Status == EventStatus.Published);
+            // ==========================
+            // Load ticket types for lines
+            // ==========================
 
-            if (evt == null)
-            {
-                return NotFound();
-            }
-
-            var ticketTypeIds = requested.Select(r => r.TicketTypeId).Distinct().ToList();
+            var ticketTypeIds = selectedLines
+                .Select(l => l.TicketTypeId)
+                .Distinct()
+                .ToList();
 
             var ticketTypes = await _db.TicketTypes
-                .Where(tt => tt.EventId == model.EventId && ticketTypeIds.Contains(tt.TicketTypeId))
+                .Where(tt => tt.EventId == model.EventId &&
+                             ticketTypeIds.Contains(tt.TicketTypeId))
                 .ToListAsync();
 
             if (ticketTypes.Count != ticketTypeIds.Count)
             {
-                return RedirectToAction(nameof(Purchase), new { eventId = model.EventId });
+                ModelState.AddModelError(string.Empty,
+                    "One or more selected ticket types are no longer available.");
             }
 
+            // ==========================
+            // Inventory check (no oversell)
+            // ==========================
+
+            if (ticketTypeIds.Any())
+            {
+                var soldCounts = await _db.Tickets
+                    .Include(t => t.OrderItem)
+                    .Where(t => ticketTypeIds.Contains(t.OrderItem.TicketTypeId) &&
+                                t.Status == TicketStatus.Active)
+                    .GroupBy(t => t.OrderItem.TicketTypeId)
+                    .Select(g => new
+                    {
+                        TicketTypeId = g.Key,
+                        Count = g.Count()
+                    })
+                    .ToListAsync();
+
+                var soldDict = soldCounts.ToDictionary(x => x.TicketTypeId, x => x.Count);
+
+                foreach (var line in selectedLines)
+                {
+                    var tt = ticketTypes.FirstOrDefault(t => t.TicketTypeId == line.TicketTypeId);
+                    if (tt == null) continue;
+
+                    soldDict.TryGetValue(tt.TicketTypeId, out var alreadySold);
+
+                    var remaining = tt.TotalQuantity - alreadySold;
+
+                    if (remaining <= 0)
+                    {
+                        ModelState.AddModelError(string.Empty,
+                            $"Ticket type '{tt.Name}' is sold out.");
+                    }
+                    else if (line.Quantity > remaining)
+                    {
+                        ModelState.AddModelError(string.Empty,
+                            $"Cannot buy {line.Quantity} '{tt.Name}' tickets – only {remaining} left.");
+                    }
+                }
+            }
+
+            // If anything failed, show the Cart again with errors
+            if (!ModelState.IsValid)
+            {
+                // Ensure model.Lines only contains the selected lines (with updated quantities)
+                model.Lines = selectedLines;
+                return View("Cart", model);
+            }
+
+            // ==========================
+            // Create Order + Tickets
+            // ==========================
+
+            // Calculate total using DB prices (trust DB, not the form)
             decimal total = 0m;
-            foreach (var line in requested)
+            foreach (var line in selectedLines)
             {
                 var tt = ticketTypes.First(t => t.TicketTypeId == line.TicketTypeId);
                 total += line.Quantity * tt.Price;
@@ -185,7 +342,7 @@ namespace EventSpark.Web.Controllers
             {
                 BuyerId = userId,
                 CreatedAt = DateTime.UtcNow,
-                Status = OrderStatus.Completed,     // mock success
+                Status = OrderStatus.Completed, // mock payment succeeded
                 TotalAmount = total,
                 PaymentReference = "TEST-" + Guid.NewGuid().ToString("N").Substring(0, 8),
                 EmailSnapshot = User.Identity?.Name,
@@ -194,7 +351,7 @@ namespace EventSpark.Web.Controllers
 
             _db.Orders.Add(order);
 
-            foreach (var line in requested)
+            foreach (var line in selectedLines)
             {
                 var tt = ticketTypes.First(t => t.TicketTypeId == line.TicketTypeId);
 
@@ -213,17 +370,15 @@ namespace EventSpark.Web.Controllers
                 {
                     var ticketNumber = $"EVT{tt.EventId}-TT{tt.TicketTypeId}-{Guid.NewGuid():N}".Substring(0, 40);
 
-                    // Use the ticket number itself as the QR content
                     var ticket = new Ticket
                     {
                         OrderItem = orderItem,
                         EventId = tt.EventId,
                         TicketNumber = ticketNumber,
-                        QrCodeValue = ticketNumber, // 🔴 changed
+                        QrCodeValue = ticketNumber, // we decided QR encodes the ticket number
                         Status = TicketStatus.Active,
                         CreatedAt = DateTime.UtcNow
                     };
-
 
                     _db.Tickets.Add(ticket);
                 }
@@ -231,8 +386,11 @@ namespace EventSpark.Web.Controllers
 
             await _db.SaveChangesAsync();
 
+            // Go to the fake payment / success screen
             return RedirectToAction(nameof(Payment), new { id = order.OrderId });
         }
+
+
 
         // ============================
         // 4) MOCK PAYMENT SCREEN

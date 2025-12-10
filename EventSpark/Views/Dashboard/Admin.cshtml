@@ -15,6 +15,45 @@
             </div>
         </div>
     </div>
+
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">Upcoming Events</h5>
+                <p class="display-6">@Model.TotalUpcomingEvents</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">Past Events</h5>
+                <p class="display-6">@Model.TotalPastEvents</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">Registered Users</h5>
+                <p class="display-6">@Model.TotalUsers</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">Total Orders</h5>
+                <p class="display-6">@Model.TotalOrders</p>
+            </div>
+        </div>
+    </div>
+
     <div class="col-md-3">
         <div class="card text-center">
             <div class="card-body">
@@ -23,6 +62,7 @@
             </div>
         </div>
     </div>
+
     <div class="col-md-3">
         <div class="card text-center">
             <div class="card-body">
@@ -31,6 +71,7 @@
             </div>
         </div>
     </div>
+
     <div class="col-md-3">
         <div class="card text-center">
             <div class="card-body">
@@ -47,7 +88,7 @@
 }
 else
 {
-    <h2>Event Stats</h2>
+    <h2>Events Overview</h2>
     <table class="table">
         <thead>
             <tr>

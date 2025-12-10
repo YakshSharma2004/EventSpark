@@ -12,42 +12,57 @@ namespace EventSpark.Core.Entities
     {
         public int EventId { get; set; }
 
-        // Will map to AspNetUsers.Id later
-        [Required, MaxLength(450)]
-        public string OrganizerId { get; set; } = null!;
+        // filled from Identity User – no need to show in UI
+        public string OrganizerId { get; set; } = "";
 
         public int? CategoryId { get; set; }
 
-        [Required, MaxLength(200)]
-        public string Title { get; set; } = null!;
+        [Required]
+        [StringLength(200)]
+        public string Title { get; set; } = "";
 
         [Required]
-        public string Description { get; set; } = null!;
+        [StringLength(4000, ErrorMessage = "Description is too long.")]
+        public string Description { get; set; } = "";
 
-        [Required, MaxLength(200)]
-        public string VenueName { get; set; } = null!;
+        [Required]
+        [Display(Name = "Venue Name")]
+        [StringLength(200)]
+        public string VenueName { get; set; } = "";
 
-        [MaxLength(400)]
+        [Display(Name = "Venue Address")]
+        [StringLength(400)]
         public string? VenueAddress { get; set; }
 
-        [Required, MaxLength(100)]
-        public string City { get; set; } = null!;
+        [Required]
+        [StringLength(100)]
+        public string City { get; set; } = "";
 
+        [Required]
+        [Display(Name = "Start Date & Time")]
+        [DataType(DataType.DateTime)]
         public DateTime StartDateTime { get; set; }
+
+        [Required]
+        [Display(Name = "End Date & Time")]
+        [DataType(DataType.DateTime)]
         public DateTime EndDateTime { get; set; }
 
+        [Required]
         public EventStatus Status { get; set; }
 
-        [MaxLength(400)]
+        [Display(Name = "Image Path")]
+        [StringLength(400)]
         public string? ImagePath { get; set; }
 
+        [Display(Name = "Max Capacity")]
+        [Range(0, 100000, ErrorMessage = "Max capacity must be 0 or greater.")]
         public int? MaxCapacity { get; set; }
 
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 
-        [Timestamp]
-        public byte[] RowVersion { get; set; } = null!;
+        public byte[] RowVersion { get; set; } = Array.Empty<byte>();
 
         // Navigation
         public EventCategory? Category { get; set; }
