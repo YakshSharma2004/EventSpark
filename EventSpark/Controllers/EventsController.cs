@@ -38,16 +38,13 @@ namespace EventSpark.Web.Controllers
         }
         [AllowAnonymous]
         // GET: /Events/Details/5
-        public async Task<IActionResult> Details(int? id)
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null) return NotFound();
-
-            var evt = await _db.Events
-                .Include(e => e.Category)
-                .FirstOrDefaultAsync(e => e.EventId == id.Value);
-
+            var evt = await _db.Events.FindAsync(id);
             if (evt == null) return NotFound();
 
+            ViewBag.CurrentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             return View(evt);
         }
         [Authorize]

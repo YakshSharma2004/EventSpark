@@ -211,6 +211,10 @@
             "Microsoft.AspNetCore.Identity.UI": {
               "target": "Package",
               "version": "[9.0.11, )"
+            },
+            "QRCoder": {
+              "target": "Package",
+              "version": "[1.7.0, )"
             }
           },
           "imports": [

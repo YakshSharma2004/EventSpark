@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<EventSpark.Web.Models.MyTicketListItemViewModel>
+@using EventSpark.Core.Enums
 
 @{
     ViewData["Title"] = "My Tickets";
@@ -15,6 +16,7 @@ else
     <table class="table">
         <thead>
             <tr>
+                <th>QR</th>
                 <th>Event</th>
                 <th>Date</th>
                 <th>Venue</th>
@@ -28,6 +30,11 @@ else
             @foreach (var t in Model)
             {
                 <tr>
+                    <td>
+                        <img src="@Url.Action("TicketQr", "Orders", new { id = t.TicketId })"
+                             alt="QR"
+                             style="width:120px;height:120px;" />
+                    </td>
                     <td>@t.EventTitle</td>
                     <td>@t.EventStartDateTime</td>
                     <td>@t.VenueName</td>
@@ -35,12 +42,11 @@ else
                     <td>@t.TicketTypeName</td>
                     <td>@t.Status</td>
                     <td>
-                        <a asp-action="Details" asp-route-id="@t.OrderId">
-                            @t.OrderId
-                        </a>
+                        <a asp-action="Details" asp-route-id="@t.OrderId">@t.OrderId</a>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
+
 }

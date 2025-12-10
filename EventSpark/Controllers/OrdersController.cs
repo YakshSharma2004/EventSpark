@@ -10,6 +10,7 @@ using EventSpark.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using QRCoder;
 
 namespace EventSpark.Web.Controllers
 {
@@ -211,17 +212,18 @@ namespace EventSpark.Web.Controllers
                 for (int i = 0; i < line.Quantity; i++)
                 {
                     var ticketNumber = $"EVT{tt.EventId}-TT{tt.TicketTypeId}-{Guid.NewGuid():N}".Substring(0, 40);
-                    var qrValue = "TICKET-" + Guid.NewGuid().ToString("N");
 
+                    // Use the ticket number itself as the QR content
                     var ticket = new Ticket
                     {
                         OrderItem = orderItem,
                         EventId = tt.EventId,
                         TicketNumber = ticketNumber,
-                        QrCodeValue = qrValue,
+                        QrCodeValue = ticketNumber, // 🔴 changed
                         Status = TicketStatus.Active,
                         CreatedAt = DateTime.UtcNow
                     };
+
 
                     _db.Tickets.Add(ticket);
                 }
@@ -453,5 +455,34 @@ namespace EventSpark.Web.Controllers
 
             return View("Purchase", vm);
         }
+
+        // ============================
+        // 8) TICKET QR CODE IMAGE
+        // ============================
+        [HttpGet]
+        public async Task<IActionResult> TicketQr(int id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null) return Challenge();
+
+            // Only allow the ticket owner to view the QR
+            var ticket = await _db.Tickets
+                .Include(t => t.OrderItem)
+                    .ThenInclude(oi => oi.Order)
+                .FirstOrDefaultAsync(t => t.TicketId == id &&
+                                          t.OrderItem.Order.BuyerId == userId);
+
+            if (ticket == null) return NotFound();
+
+            using var qrGenerator = new QRCodeGenerator();
+            // We encode the QrCodeValue stored in DB
+            var payload = ticket.TicketNumber; // or ticket.QrCodeValue (same now)
+            var qrData = qrGenerator.CreateQrCode(payload, QRCodeGenerator.ECCLevel.Q);
+            var qrCode = new PngByteQRCode(qrData);
+            byte[] bytes = qrCode.GetGraphic(20); // 20 = pixel size
+
+            return File(bytes, "image/png");
+        }
+
     }
 }

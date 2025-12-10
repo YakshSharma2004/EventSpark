@@ -1,0 +1,47 @@
+﻿@model EventSpark.Web.Models.CheckInViewModel
+@using EventSpark.Core.Enums
+
+@{
+    ViewData["Title"] = "Check In";
+}
+
+<h1>Check In – @Model.EventTitle</h1>
+
+<form asp-action="Index" method="post" class="mb-4">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="EventId" />
+
+    <div class="mb-3">
+        <label asp-for="Code" class="form-label">Scan or enter ticket code</label>
+        <input asp-for="Code" class="form-control" autofocus />
+        <span class="form-text">
+            This should be the ticket code (Ticket # or QR code value).
+        </span> 
+    </div>
+
+    <button type="submit" class="btn btn-primary">Check In</button>
+</form>
+
+@if (Model.Result.HasValue)
+{
+    var cssClass = Model.Result == CheckInResult.Success
+        ? "alert-success"
+        : Model.Result == CheckInResult.AlreadyCheckedIn
+            ? "alert-warning"
+            : "alert-danger";
+
+    <div class="alert @cssClass">
+        @Model.ResultMessage
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.LastTicketNumber))
+    {
+        <p>
+            <strong>Ticket:</strong> @Model.LastTicketNumber<br />
+            @if (!string.IsNullOrEmpty(Model.LastBuyerEmail))
+            {
+                <strong>Buyer:</strong> @Model.LastBuyerEmail
+            }
+        </p>
+    }
+}

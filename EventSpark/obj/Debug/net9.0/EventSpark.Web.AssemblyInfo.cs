@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EventSpark.Web")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+870a22d86f747722c30ccb7c7ed155b3f24a3110")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e4ce68aa1bb6a756215a5b7914fc5147d62ca92e")]
 [assembly: System.Reflection.AssemblyProductAttribute("EventSpark.Web")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EventSpark.Web")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
