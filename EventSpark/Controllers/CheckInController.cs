@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EventSpark.Web.Controllers
 {
-    [Authorize(Roles = AppRole.Admin)]
+    [Authorize]
     public class CheckInController : Controller
     {
         private readonly EventSparkDbContext _db;

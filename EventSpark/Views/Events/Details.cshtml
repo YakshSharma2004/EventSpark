@@ -1,11 +1,25 @@
 ﻿@model EventSpark.Core.Entities.Event
+@using EventSpark.Core.Enums
 @using System.Security.Claims
 
 @{
     ViewData["Title"] = "Event Details";
-    var currentUserId = ViewBag.CurrentUserId as string;
+
+    var currentUserId = User.Identity?.IsAuthenticated == true
+        ? User.FindFirstValue(ClaimTypes.NameIdentifier)
+        : null;
+
+    bool isOwner = !string.IsNullOrEmpty(currentUserId) && Model.OrganizerId == currentUserId;
+    bool canBuy = Model.Status == EventStatus.Published;
 }
 
+@if (TempData["ErrorMessage"] is string error && !string.IsNullOrWhiteSpace(error))
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @error
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
 <h1>@Model.Title</h1>
 
 <dl class="row">

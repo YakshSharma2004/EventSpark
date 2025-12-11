@@ -1,120 +1,82 @@
-﻿@model EventSpark.Core.Entities.Event
-@using EventSpark.Core.Enums
-@using System.Security.Claims
+﻿@model EventSpark.Web.Models.OrderDetailsViewModel
 
 @{
-    ViewData["Title"] = "Event Details";
-
-    var currentUserId = User.Identity?.IsAuthenticated == true
-        ? User.FindFirstValue(ClaimTypes.NameIdentifier)
-        : null;
-
-    bool isOwner = !string.IsNullOrEmpty(currentUserId) && Model.OrganizerId == currentUserId;
-    bool canBuy = Model.Status == EventStatus.Published;
+    ViewData["Title"] = "Order Details";
 }
 
-<h1 class="mb-3">@Model.Title</h1>
-
-<div class="card event-detail-card mb-4">
-    @* Top image if we have an URL *@
-    @if (!string.IsNullOrWhiteSpace(Model.ImagePath))
-    {
-        <div class="event-detail-image-wrapper">
-            <img src="@Model.ImagePath"
-                 alt="@Model.Title"
-                 class="img-fluid event-detail-image" />
-        </div>
-    }
-
-    <div class="card-body">
-        <div class="d-flex justify-content-between align-items-start mb-3">
-            <div>
-                <div class="event-detail-meta mb-1">
-                    <strong>When:</strong>
-                    @Model.StartDateTime.ToLocalTime().ToString("ddd, MMM dd yyyy h:mm tt")
-                    @if (Model.EndDateTime > Model.StartDateTime)
-                    {
-                        <span> &ndash; @Model.EndDateTime.ToLocalTime().ToString("h:mm tt")</span>
-                    }
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <div>
+                    <h5 class="mb-0">Order #@Model.OrderId</h5>
+                    <small class="text-muted">
+                        Placed on @Model.CreatedAt.ToLocalTime().ToString("ddd, MMM dd yyyy h:mm tt")
+                    </small>
                 </div>
-                <div class="event-detail-meta mb-1">
-                    <strong>Where:</strong>
-                    @if (!string.IsNullOrWhiteSpace(Model.VenueName))
-                    {
+                <span class="badge bg-primary-subtle text-primary-emphasis">
+                    Paid @Model.TotalAmount.ToString("C")
+                </span>
+            </div>
+
+            <div class="card-body">
+                <div class="mb-3">
+                    <h6 class="text-uppercase text-muted small mb-2">Event</h6>
+                    <div class="fw-semibold">@Model.EventTitle</div>
+                    <div class="small text-muted">
+                        @Model.EventStartDateTime.ToLocalTime().ToString("ddd, MMM dd yyyy h:mm tt")
+                    </div>
+                    <div class="small text-muted">
                         @Model.VenueName
-                        if (!string.IsNullOrWhiteSpace(Model.VenueAddress))
-                        {
-                            <span>, @Model.VenueAddress</span>
-                        }
+                    </div>
+                </div>
+
+                <hr />
+
+                <div>
+                    <h6 class="text-uppercase text-muted small mb-2">Tickets</h6>
+
+                    @if (!Model.Tickets.Any())
+                    {
+                        <p class="text-muted mb-0">No tickets found for this order.</p>
                     }
                     else
                     {
-                        @Model.City
-                    }
-                </div>
-                <div class="event-detail-meta">
-                    <strong>City:</strong> @Model.City
-                    @if (Model.MaxCapacity.HasValue)
-                    {
-                        <span> · <strong>Capacity:</strong> @Model.MaxCapacity</span>
+                        <div class="table-responsive">
+                            <table class="table align-middle mb-0">
+                                <thead class="small text-muted">
+                                    <tr>
+                                        <th scope="col">Ticket #</th>
+                                        <th scope="col">Type</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var t in Model.Tickets)
+                                    {
+                                        <tr>
+                                            <td class="fw-semibold">@t.TicketNumber</td>
+                                            <td>@t.TicketTypeName</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
                     }
                 </div>
             </div>
 
-            <div class="text-end">
-                <span class="badge badge-status @(Model.Status == EventStatus.Published ? "bg-success" : "bg-secondary")">
-                    @Model.Status
-                </span>
-                @if (Model.Category != null)
-                {
-                    <div class="small text-muted mt-1">
-                        @Model.Category.Name
-                    </div>
-                }
-            </div>
-        </div>
-
-        @if (!string.IsNullOrWhiteSpace(Model.Description))
-        {
-            <hr />
-            <p class="mb-0">
-                @Model.Description
-            </p>
-        }
-    </div>
-
-    <div class="card-footer d-flex justify-content-between align-items-center">
-        <div class="small text-muted">
-            Created: @Model.CreatedAt.ToLocalTime().ToString("MMM dd yyyy h:mm tt")
-        </div>
-
-        <div class="d-flex gap-2">
-            @if (isOwner)
-            {
-                <a asp-action="Edit" asp-route-id="@Model.EventId" class="btn btn-sm btn-outline-primary">
-                    Edit Event
-                </a>
-                <a asp-controller="TicketTypes"
-                   asp-action="Index"
-                   asp-route-eventId="@Model.EventId"
-                   class="btn btn-sm btn-outline-secondary">
-                    Manage Ticket Types
-                </a>
-            }
-
-            @if (canBuy)
-            {
+            <div class="card-footer d-flex justify-content-between">
                 <a asp-controller="Orders"
-                   asp-action="Purchase"
-                   asp-route-eventId="@Model.EventId"
-                   class="btn btn-sm btn-primary">
-                    Buy Tickets
+                   asp-action="MyOrders"
+                   class="btn btn-outline-secondary btn-sm">
+                    Back to My Orders
                 </a>
-            }
-
-            <a asp-action="Index" class="btn btn-sm btn-outline-secondary">
-                Back to Events
-            </a>
+                <a asp-controller="Orders"
+                   asp-action="MyTickets"
+                   class="btn btn-primary btn-sm">
+                    View My Tickets
+                </a>
+            </div>
         </div>
     </div>
 </div>
