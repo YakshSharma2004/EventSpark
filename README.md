@@ -65,7 +65,8 @@ git clone <your-repo-url> EventSpark
 cd EventSpark
 ```
 ---
-##🗄️ Database Setup
+
+## 🗄️ Database Setup
 
 The project assumes a SQL Server database that matches the schema from the
 creation.sql and usersadd.sql scripts.
@@ -116,7 +117,7 @@ This will create the ASP.NET Identity tables (AspNetUsers, AspNetRoles, AspNetUs
 
 Note: no default users are inserted by the script. You will register users through the UI when you run the app.
 
-##🔧 Configure the Connection String
+## 🔧 Configure the Connection String
 
 In EventSpark.Web/appsettings.json, locate the ConnectionStrings section:
 ```json
@@ -163,7 +164,7 @@ dotnet run --project EventSpark.Web
 
 Then browse to the URL shown in the console output (e.g. https://localhost:7281).
 
-##👤 Creating Users & Admin
+## 👤 Creating Users & Admin
 
 Run the application.
 
@@ -194,7 +195,7 @@ VALUES ('<your-user-id-here>', '00000000-0000-0000-0000-000000000001');
 Log out and sign back in as that user.
 You should now see the Admin link in the navbar.
 
-##🧪 Running Tests
+## 🧪 Running Tests
 
 The solution includes an EventSpark.Tests project with xUnit tests.
 
@@ -214,7 +215,7 @@ dotnet test
 Tests use EF Core’s InMemory provider and do not require a real SQL Server
 database.
 
-##🧭 Quick Feature Walkthrough
+## 🧭 Quick Feature Walkthrough
 
 Once the app is running and your DB is configured:
 
@@ -248,7 +249,7 @@ As an Admin (optional):
 
 Open Dashboard → Admin to see totals for events, tickets sold, revenue, and users.
 
-##🐞 Troubleshooting
+## 🐞 Troubleshooting
 
 Q: I get a SQL connection error on startup.
 
