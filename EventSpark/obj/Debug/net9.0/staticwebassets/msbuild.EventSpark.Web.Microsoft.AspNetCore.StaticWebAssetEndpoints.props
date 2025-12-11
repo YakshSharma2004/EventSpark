@@ -16,13 +16,13 @@
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\EventSpark.Web.vr298hfmjd.bundle.scp.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-tS3Fo5/xw02hMkyfKOw63If2F5RP1KjjJFHK0cTVBK0="}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"1132"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022tS3Fo5/xw02hMkyfKOw63If2F5RP1KjjJFHK0cTVBK0=\u0022"},{"Name":"Last-Modified","Value":"Fri, 05 Dec 2025 17:00:11 GMT"}]]]></ResponseHeaders>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"1132"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022tS3Fo5/xw02hMkyfKOw63If2F5RP1KjjJFHK0cTVBK0=\u0022"},{"Name":"Last-Modified","Value":"Thu, 11 Dec 2025 16:31:48 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/EventSpark.Web/EventSpark.Web.vr298hfmjd.bundle.scp.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\EventSpark.Web.vr298hfmjd.bundle.scp.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"vr298hfmjd"},{"Name":"integrity","Value":"sha256-tS3Fo5/xw02hMkyfKOw63If2F5RP1KjjJFHK0cTVBK0="},{"Name":"label","Value":"_content/EventSpark.Web/EventSpark.Web.bundle.scp.css"}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"1132"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022tS3Fo5/xw02hMkyfKOw63If2F5RP1KjjJFHK0cTVBK0=\u0022"},{"Name":"Last-Modified","Value":"Fri, 05 Dec 2025 17:00:11 GMT"}]]]></ResponseHeaders>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"1132"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022tS3Fo5/xw02hMkyfKOw63If2F5RP1KjjJFHK0cTVBK0=\u0022"},{"Name":"Last-Modified","Value":"Thu, 11 Dec 2025 16:31:48 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/EventSpark.Web/favicon.61n19gt1b8.ico">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\favicon.ico'))</AssetFile>
